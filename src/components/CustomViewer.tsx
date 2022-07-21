@@ -1,11 +1,19 @@
 import { FunctionComponent } from "preact";
-import { useCallback, useContext, useRef } from "preact/hooks";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "preact/hooks";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import { CodeContext } from "../features/code/CodeProvider";
 
-export const CustomEditor: FunctionComponent<{}> = () => {
-  const { updateCode } = useContext(CodeContext);
+export const CustomViewer: FunctionComponent<{}> = () => {
+  const { code } = useContext(CodeContext);
+  const [astString, setAstString] = useState(code.content);
+
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
   const handleEditorDidMount = useCallback<OnMount>((editor, monaco) => {
@@ -18,19 +26,25 @@ export const CustomEditor: FunctionComponent<{}> = () => {
     });
   }, []);
 
-  const onChange = useCallback(
-    (value: string) => {
-      updateCode({ content: value });
-    },
-    [updateCode],
-  );
+  useEffect(() => {
+    (async () => {
+      const babylon = await import("babylon");
+      let ast = undefined;
+      try {
+        ast = babylon.parse(code.content);
+      } catch {
+        console.info("パース失敗");
+      }
+      const astString = JSON.stringify(ast, null, 2);
+      setAstString(astString);
+    })();
+  }, [code]);
 
   return (
     <Editor
-      defaultLanguage="javascript"
-      defaultValue="const t = 'Hello World!!';"
+      defaultLanguage="json"
       height="90vh"
-      onChange={onChange}
+      value={astString}
       onMount={handleEditorDidMount}
     />
   );
