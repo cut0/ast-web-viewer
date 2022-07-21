@@ -1,1 +1,2 @@
-import JSX = preact.JSX
+/* eslint-disable */
+import JSX = preact.JSX;
