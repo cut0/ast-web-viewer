@@ -43,7 +43,7 @@ export const CustomViewer: FunctionComponent<{}> = () => {
   return (
     <Editor
       defaultLanguage="json"
-      height="90vh"
+      height="100vh"
       value={astString}
       onMount={handleEditorDidMount}
     />
