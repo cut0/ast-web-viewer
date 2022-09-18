@@ -5,6 +5,7 @@ import { ReadPage } from "./pages/read";
 import { ReadAnalyticsPage } from "./pages/read/analytics";
 import { WritePage } from "./pages/write";
 import { WriteAnalyticsPage } from "./pages/write/analytics";
+import "modern-css-reset";
 
 export const App = () => {
   return (
