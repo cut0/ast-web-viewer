@@ -1,15 +1,20 @@
-import { MultiEditorContainer } from "./app.css";
-import { CustomEditor } from "./components/CustomEditor";
-import { CustomViewer } from "./components/CustomViewer";
-import { CodeProvider } from "./features/code/CodeProvider";
+import Router from "preact-router";
+import { TopPage } from "./pages";
+import { ExplorerPage } from "./pages/explorer";
+import { ReadPage } from "./pages/read";
+import { ReadAnalyticsPage } from "./pages/read/analytics";
+import { WritePage } from "./pages/write";
+import { WriteAnalyticsPage } from "./pages/write/analytics";
 
 export const App = () => {
   return (
-    <CodeProvider>
-      <div className={MultiEditorContainer}>
-        <CustomEditor />
-        <CustomViewer />
-      </div>
-    </CodeProvider>
+    <Router>
+      <TopPage path="/" />
+      <ReadPage path="/read" />
+      <ReadAnalyticsPage path="/read/analytics" />
+      <WritePage path="/write" />
+      <WriteAnalyticsPage path="/write/analytics" />
+      <ExplorerPage path="/explorer" />
+    </Router>
   );
 };

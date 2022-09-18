@@ -13,7 +13,8 @@
     "babylon": "^6.18.0",
     "eslint": "^8.20.0",
     "monaco-editor": "^0.33.0",
-    "preact": "^10.9.0"
+    "preact": "^10.9.0",
+    "preact-router": "^4.1.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.3.0",
