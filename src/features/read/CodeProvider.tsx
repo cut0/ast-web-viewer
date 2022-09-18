@@ -1,5 +1,4 @@
-import { ComponentChildren, createContext, FunctionalComponent } from "preact";
-import { Reducer, useReducer } from "preact/hooks";
+import { ReactNode, createContext, FC, Reducer, useReducer } from "react";
 
 type Action =
   | { type: "ADD_AST"; astString: string }
@@ -40,8 +39,8 @@ export const ReadCodeContext = createContext<
   [State, (action: Action) => void]
 >([readCodeInitialState, () => {}]);
 
-export const ReadCodeContextContainer: FunctionalComponent<{
-  children: ComponentChildren;
+export const ReadCodeContextContainer: FC<{
+  children: ReactNode;
 }> = ({ children }) => {
   const [state, dispatch] = useReducer(readCodeReducer, readCodeInitialState);
 

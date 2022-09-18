@@ -1,4 +1,4 @@
-import { FunctionalComponent } from "preact";
+import { FC } from "react";
 import {
   PageContainer,
   CardContainer,
@@ -7,23 +7,23 @@ import {
   CardSummary,
   CardNav,
 } from "./index.css";
-import { Link } from "preact-router/match";
+import { Link } from "react-router-dom";
 
-const TopPage: FunctionalComponent = () => {
+const TopPage: FC = () => {
   return (
     <div className={PageContainer}>
       <div className={CardListContainer}>
-        <Link className={CardContainer} href="/read">
+        <Link className={CardContainer} to="/read">
           <h2 className={CardTitle}>Reading</h2>
           <section className={CardSummary}> コードを読むページです</section>
           <span className={CardNav}>Readingページへ</span>
         </Link>
-        <Link className={CardContainer} href="/write">
+        <Link className={CardContainer} to="/write">
           <h2 className={CardTitle}>Writing</h2>
           <section className={CardSummary}>コードを書くページです</section>
           <span className={CardNav}>Writingページへ</span>
         </Link>
-        <Link className={CardContainer} href="/explorer">
+        <Link className={CardContainer} to="/explorer">
           <h2 className={CardTitle}>Explorer</h2>
           <section className={CardSummary}>
             ASTのライブ変換を確認するページです

@@ -1,11 +1,10 @@
-import { FunctionComponent } from "preact";
 import { MultiEditorContainer } from "./index.css";
 import { CustomEditor } from "../../components/CustomEditor";
 import { CustomViewer } from "../../components/CustomViewer";
-import { useState } from "preact/hooks";
+import { useState, FC } from "react";
 import { convertAstString } from "../../features/code/AstUtils";
 
-const ExplorerPage: FunctionComponent = () => {
+const ExplorerPage: FC = () => {
   const [astString, setAstString] = useState("");
 
   return (

@@ -1,5 +1,11 @@
-import Router from "preact-router";
-import AsyncRoute from "preact-async-route";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TopPage from "./pages";
+import ReadPage from "./pages/read";
+import ReadAnalyticsPage from "./pages/read/analytics";
+import WritePage from "./pages/write";
+import WriteAnalyticsPage from "./pages/write/analytics";
+import ExplorerPage from "./pages/explorer";
+
 import "modern-css-reset";
 import "./app.css";
 import { WriteCodeContextContainer } from "./features/write/CodeProvider";
@@ -7,53 +13,23 @@ import { ReadCodeContextContainer } from "./features/read/CodeProvider";
 
 export const App = () => {
   return (
-    <>
-      <Router>
-        <AsyncRoute
-          getComponent={() =>
-            import("./pages").then((module) => module.default)
-          }
-          path="/"
-        />
-        <AsyncRoute
-          getComponent={() =>
-            import("./pages/explorer").then((module) => module.default)
-          }
-          path="/explorer"
-        />
-      </Router>
-      <WriteCodeContextContainer>
-        <Router>
-          <AsyncRoute
-            getComponent={() =>
-              import("./pages/write").then((module) => module.default)
-            }
-            path="/write"
-          />
-          <AsyncRoute
-            getComponent={() =>
-              import("./pages/write/analytics").then((module) => module.default)
-            }
-            path="/write/analytics"
-          />
-        </Router>
-      </WriteCodeContextContainer>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<TopPage />} path="/" />
+        <Route element={<ExplorerPage />} path="/explorer" />
+      </Routes>
       <ReadCodeContextContainer>
-        <Router>
-          <AsyncRoute
-            getComponent={() =>
-              import("./pages/read").then((module) => module.default)
-            }
-            path="/read"
-          />
-          <AsyncRoute
-            getComponent={() =>
-              import("./pages/read/analytics").then((module) => module.default)
-            }
-            path="/read/analytics"
-          />
-        </Router>
+        <Routes>
+          <Route element={<ReadPage />} path="/read" />
+          <Route element={<ReadAnalyticsPage />} path="/read/analytics" />
+        </Routes>
       </ReadCodeContextContainer>
-    </>
+      <WriteCodeContextContainer>
+        <Routes>
+          <Route element={<WritePage />} path="/write" />
+          <Route element={<WriteAnalyticsPage />} path="/write/analytics" />
+        </Routes>
+      </WriteCodeContextContainer>
+    </BrowserRouter>
   );
 };

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "preact";
+import { FunctionComponent } from "react";
 
 const WriteAnalyticsPage: FunctionComponent = () => {
   return <p>コードライティングの分析ページ</p>;

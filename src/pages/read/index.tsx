@@ -1,15 +1,24 @@
-import { FunctionComponent } from "preact";
-import { MultiEditorContainer } from "../explorer/index.css";
+import {
+  MultiEditorContainer,
+  AnalyticsLinkContainer,
+  AnalyticsLink,
+} from "./index.css";
 import { CustomEditor } from "../../components/CustomEditor";
 import { CustomViewer } from "../../components/CustomViewer";
-import { useState } from "preact/hooks";
+import { useState, FC } from "react";
 import { convertAstString } from "../../features/code/AstUtils";
+import { Link } from "react-router-dom";
 
-const ReadPage: FunctionComponent = () => {
+const ReadPage: FC = () => {
   const [astString, setAstString] = useState("");
 
   return (
     <div className={MultiEditorContainer}>
+      <div className={AnalyticsLinkContainer}>
+        <Link to="/write/analytics">
+          <button className={AnalyticsLink}>Analytics へ</button>
+        </Link>
+      </div>
       <CustomEditor
         onCodeChange={(code) => {
           convertAstString(code).then((ast) => {

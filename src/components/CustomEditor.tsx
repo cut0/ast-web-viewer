@@ -1,6 +1,5 @@
-import { FunctionComponent } from "preact";
-import { useCallback, useRef } from "preact/hooks";
-import Editor, { OnMount } from "@monaco-editor/react";
+import { useCallback, useRef, FC } from "react";
+import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 type CustomEditorProps = {
@@ -8,9 +7,7 @@ type CustomEditorProps = {
   onCodeChange: (code: string) => void;
 };
 
-export const CustomEditor: FunctionComponent<CustomEditorProps> = ({
-  onCodeChange,
-}) => {
+export const CustomEditor: FC<CustomEditorProps> = ({ onCodeChange }) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
   const handleEditorDidMount = useCallback<OnMount>((editor, monaco) => {
@@ -23,8 +20,11 @@ export const CustomEditor: FunctionComponent<CustomEditorProps> = ({
     });
   }, []);
 
-  const onChange = useCallback(
-    (value: string) => {
+  const onChange = useCallback<OnChange>(
+    (value) => {
+      if (value === undefined) {
+        return;
+      }
       onCodeChange(value);
     },
     [onCodeChange],
