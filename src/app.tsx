@@ -1,6 +1,7 @@
 import Router from "preact-router";
 import AsyncRoute from "preact-async-route";
 import "modern-css-reset";
+import "./app.css";
 
 export const App = () => {
   return (
