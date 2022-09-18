@@ -4,7 +4,7 @@ import { CustomEditor } from "../../components/CustomEditor";
 import { CustomViewer } from "../../components/CustomViewer";
 import { CodeProvider } from "../../features/code/CodeProvider";
 
-export const ExplorerPage: FunctionComponent = () => {
+const ExplorerPage: FunctionComponent = () => {
   return (
     <CodeProvider>
       <div className={MultiEditorContainer}>
@@ -14,3 +14,5 @@ export const ExplorerPage: FunctionComponent = () => {
     </CodeProvider>
   );
 };
+
+export default ExplorerPage;

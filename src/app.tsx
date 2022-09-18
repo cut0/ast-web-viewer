@@ -1,21 +1,44 @@
 import Router from "preact-router";
-import { TopPage } from "./pages";
-import { ExplorerPage } from "./pages/explorer";
-import { ReadPage } from "./pages/read";
-import { ReadAnalyticsPage } from "./pages/read/analytics";
-import { WritePage } from "./pages/write";
-import { WriteAnalyticsPage } from "./pages/write/analytics";
+import AsyncRoute from "preact-async-route";
 import "modern-css-reset";
 
 export const App = () => {
   return (
     <Router>
-      <TopPage path="/" />
-      <ReadPage path="/read" />
-      <ReadAnalyticsPage path="/read/analytics" />
-      <WritePage path="/write" />
-      <WriteAnalyticsPage path="/write/analytics" />
-      <ExplorerPage path="/explorer" />
+      <AsyncRoute
+        getComponent={() => import("./pages").then((module) => module.default)}
+        path="/"
+      />
+      <AsyncRoute
+        getComponent={() =>
+          import("./pages/read").then((module) => module.default)
+        }
+        path="/read"
+      />
+      <AsyncRoute
+        getComponent={() =>
+          import("./pages/read/analytics").then((module) => module.default)
+        }
+        path="/read/analytics"
+      />
+      <AsyncRoute
+        getComponent={() =>
+          import("./pages/write").then((module) => module.default)
+        }
+        path="/write"
+      />
+      <AsyncRoute
+        getComponent={() =>
+          import("./pages/write/analytics").then((module) => module.default)
+        }
+        path="/write/analytics"
+      />
+      <AsyncRoute
+        getComponent={() =>
+          import("./pages/explorer").then((module) => module.default)
+        }
+        path="/explorer"
+      />
     </Router>
   );
 };

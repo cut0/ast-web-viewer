@@ -1,5 +1,7 @@
 import { FunctionalComponent } from "preact";
 
-export const TopPage: FunctionalComponent = () => {
+const TopPage: FunctionalComponent = () => {
   return <p>Topページ</p>;
 };
+
+export default TopPage;

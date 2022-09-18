@@ -15,6 +15,7 @@
     "modern-css-reset": "^1.4.0",
     "monaco-editor": "^0.33.0",
     "preact": "^10.9.0",
+    "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.0"
   },
   "devDependencies": {

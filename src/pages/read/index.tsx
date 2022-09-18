@@ -1,5 +1,7 @@
 import { FunctionComponent } from "preact";
 
-export const ReadPage: FunctionComponent = () => {
+const ReadPage: FunctionComponent = () => {
   return <p>コードリーディングのページ</p>;
 };
+
+export default ReadPage;

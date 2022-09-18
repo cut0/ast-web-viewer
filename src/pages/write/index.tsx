@@ -1,5 +1,7 @@
 import { FunctionComponent } from "preact";
 
-export const WritePage: FunctionComponent = () => {
+const WritePage: FunctionComponent = () => {
   return <p>コードライティングページ</p>;
 };
+
+export default WritePage;
