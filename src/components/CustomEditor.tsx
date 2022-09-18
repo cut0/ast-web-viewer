@@ -33,7 +33,7 @@ export const CustomEditor: FunctionComponent<CustomEditorProps> = ({
   return (
     <Editor
       defaultLanguage="javascript"
-      defaultValue="const t = 'Hello World!!';"
+      defaultValue=""
       height="100vh"
       onChange={onChange}
       onMount={handleEditorDidMount}
