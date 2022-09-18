@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.4.5",
+    "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
     "eslint": "^8.20.0",
     "modern-css-reset": "^1.4.0",
@@ -19,6 +20,9 @@
     "react-router-dom": "^6.4.0"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@types/babel-traverse": "^6.25.7",
     "@types/babylon": "^6.16.6",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
