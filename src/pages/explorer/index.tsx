@@ -1,25 +1,41 @@
-import { MultiEditorContainer } from "./index.css";
+import {
+  MultiEditorContainer,
+  AnalyticsLinkContainer,
+  AnalyticsLink,
+} from "./index.css";
 import { CustomEditor } from "../../components/CustomEditor";
 import { CustomViewer } from "../../components/CustomViewer";
-import { useState, FC } from "react";
-import { convertAstString } from "../../features/code/AstUtils";
+import { FC, useContext, useMemo } from "react";
+import { convertCustomTree } from "../../features/code/AstUtils";
+import { Link } from "react-router-dom";
+import { ExplorerCodeContext } from "../../features/explorer/CodeProvider";
 
 const ExplorerPage: FC = () => {
-  const [astString, setAstString] = useState("");
+  const [nodeList, dispatch] = useContext(ExplorerCodeContext);
+
+  const nodeListString = useMemo(() => {
+    return JSON.stringify(nodeList.payload, null, 2);
+  }, [nodeList]);
 
   return (
     <div className={MultiEditorContainer}>
+      <div className={AnalyticsLinkContainer}>
+        <Link to="/explorer/analytics">
+          <button className={AnalyticsLink}>Analytics へ</button>
+        </Link>
+      </div>
       <CustomEditor
         onCodeChange={(code) => {
-          convertAstString(code).then((ast) => {
-            if (ast === undefined) {
+          convertCustomTree(code).then((nodeList) => {
+            if (nodeList === undefined) {
+              dispatch({ type: "RESET_NODE_LIST" });
               return;
             }
-            setAstString(ast);
+            dispatch({ type: "UPDATE_NODE_LIST", nodeList });
           });
         }}
       />
-      <CustomViewer code={astString} />
+      <CustomViewer code={nodeListString} />
     </div>
   );
 };

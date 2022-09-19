@@ -14,7 +14,7 @@ export const convertAstString = async (
   }
 };
 
-type CustomNode = {
+export type CustomNode = {
   id: number;
   parentId?: number;
   type: string;
@@ -22,26 +22,30 @@ type CustomNode = {
   specificValue?: string;
 };
 
-export const convertCustomTree = async (code: string) => {
-  const babylon = await import("babylon");
-  const traverse = (await import("babel-traverse")).default;
+export const convertCustomTree = async (
+  code: string,
+): Promise<CustomNode[] | undefined> => {
+  const [babylon, traverse] = await Promise.all([
+    import("babylon"),
+    import("babel-traverse"),
+  ]);
 
-  const nodeList: CustomNode[] = [];
+  const customNodeList: CustomNode[] = [];
 
   try {
     const ast = babylon.parse(code);
-    traverse(ast, {
+    traverse.default(ast, {
       enter(
         nodePath: NodePath & {
           node: Node & {
-            name?: string;
             value?: unknown;
+            name?: string;
             operator?: string;
           };
         },
       ) {
         const baseNode = nodePath.node;
-        const parentId = nodeList.find((node) => {
+        const parentId = customNodeList.find((node) => {
           return (
             nodePath.parent.start === node.postition.start &&
             nodePath.parent.end === node.postition.end
@@ -49,7 +53,7 @@ export const convertCustomTree = async (code: string) => {
         })?.id;
 
         const nodeElement: CustomNode = {
-          id: nodeList.length,
+          id: customNodeList.length,
           parentId,
           type: baseNode.type,
           postition: { start: baseNode.start, end: baseNode.end },
@@ -58,11 +62,11 @@ export const convertCustomTree = async (code: string) => {
               ? String(baseNode.value)
               : baseNode.name ?? baseNode.operator ?? undefined,
         };
-        nodeList.push(nodeElement);
+        customNodeList.push(nodeElement);
       },
     });
 
-    return nodeList;
+    return customNodeList;
   } catch {
     console.info("パース失敗");
     return undefined;

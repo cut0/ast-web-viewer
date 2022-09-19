@@ -5,19 +5,28 @@ import ReadAnalyticsPage from "./pages/read/analytics";
 import WritePage from "./pages/write";
 import WriteAnalyticsPage from "./pages/write/analytics";
 import ExplorerPage from "./pages/explorer";
-
-import "modern-css-reset";
-import "./app.css";
+import ExplorerAnalyticsPage from "./pages/explorer/analytics";
 import { WriteCodeContextContainer } from "./features/write/CodeProvider";
 import { ReadCodeContextContainer } from "./features/read/CodeProvider";
+import { ExplorerCodeContextContainer } from "./features/explorer/CodeProvider";
+import "modern-css-reset";
+import "./app.css";
 
 export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<TopPage />} path="/" />
-        <Route element={<ExplorerPage />} path="/explorer" />
+        <Route element={<TopPage />} path="/" />{" "}
       </Routes>
+      <ExplorerCodeContextContainer>
+        <Routes>
+          <Route element={<ExplorerPage />} path="/explorer" />
+          <Route
+            element={<ExplorerAnalyticsPage />}
+            path="/explorer/analytics"
+          />
+        </Routes>
+      </ExplorerCodeContextContainer>
       <ReadCodeContextContainer>
         <Routes>
           <Route element={<ReadPage />} path="/read" />
