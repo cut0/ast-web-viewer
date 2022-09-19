@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
+import { FC } from "react";
 
-const ReadAnalyticsPage: FunctionComponent = () => {
+const ReadAnalyticsPage: FC = () => {
   return <p>コードリーディングの分析ページ</p>;
 };
 
