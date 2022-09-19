@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,6 +18,11 @@ export default defineConfig({
           buffer: true,
         }),
       ],
+    },
+  },
+  build: {
+    rollupOptions: {
+      plugins: [visualizer()],
     },
   },
 });
