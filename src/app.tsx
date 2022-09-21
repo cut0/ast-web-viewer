@@ -16,7 +16,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<TopPage />} path="/" />{" "}
+        <Route element={<TopPage />} path="/" />
       </Routes>
       <ExplorerCodeContextContainer>
         <Routes>

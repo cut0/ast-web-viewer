@@ -6,7 +6,7 @@ import {
 import { CustomEditor } from "../../components/CustomEditor";
 import { CustomViewer } from "../../components/CustomViewer";
 import { useState, FC } from "react";
-import { convertAstString } from "../../features/code/AstUtils";
+import { convertCustomTree } from "../../features/code/AstUtils";
 import { Link } from "react-router-dom";
 
 const WritePage: FC = () => {
@@ -21,11 +21,12 @@ const WritePage: FC = () => {
       </div>
       <CustomEditor
         onCodeChange={(code) => {
-          convertAstString(code).then((ast) => {
+          convertCustomTree(code).then((ast) => {
             if (ast === undefined) {
+              setAstString("");
               return;
             }
-            setAstString(ast);
+            setAstString(JSON.stringify(ast, null, 2));
           });
         }}
       />

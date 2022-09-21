@@ -67,7 +67,8 @@ export const convertCustomTree = async (
     });
 
     return customNodeList;
-  } catch {
+  } catch (e) {
+    console.log(e);
     console.info("パース失敗");
     return undefined;
   }
