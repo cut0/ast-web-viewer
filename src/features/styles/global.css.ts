@@ -1,5 +1,5 @@
 import { globalStyle } from "@vanilla-extract/css";
-import { background, text } from "./features/styles/theme";
+import { background, text } from "./theme";
 
 globalStyle("html", {
   fontSize: "16px",

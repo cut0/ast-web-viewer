@@ -1,16 +1,5 @@
 {
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "prettier"
-  ],
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
-  "parser": "@typescript-eslint/parser",
+  "extends": ["next/core-web-vitals", "prettier"],
   "rules": {
     "react/jsx-sort-props": [
       "error",
@@ -19,8 +8,6 @@
         "shorthandLast": true
       }
     ],
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off"
+    "import/order": "error"
   }
 }

@@ -3,7 +3,6 @@ import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 type CustomEditorProps = {
-  // eslint-disable-next-line no-unused-vars
   onCodeChange: (code: string) => void;
 };
 

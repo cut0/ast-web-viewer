@@ -35,7 +35,6 @@ export const writeCodeReducer: Reducer<State, Action> = (
 };
 
 export const WriteCodeContext = createContext<
-  // eslint-disable-next-line no-unused-vars
   [State, (action: Action) => void]
 >([writeCodeInitialState, () => {}]);
 

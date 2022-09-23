@@ -1,7 +1,12 @@
-import { FC } from "react";
+import { NextPage } from "next";
+import { WriteAnalyticsPageContent } from "../../components/content/write/analytics";
 
-const WriteAnalyticsPage: FC = () => {
-  return <p>コードライティングの分析ページ</p>;
+const WriteAnalytics: NextPage = () => {
+  return (
+    <>
+      <WriteAnalyticsPageContent />
+    </>
+  );
 };
 
-export default WriteAnalyticsPage;
+export default WriteAnalytics;

@@ -34,10 +34,9 @@ export const readCodeReducer: Reducer<State, Action> = (
   }
 };
 
-export const ReadCodeContext = createContext<
-  // eslint-disable-next-line no-unused-vars
-  [State, (action: Action) => void]
->([readCodeInitialState, () => {}]);
+export const ReadCodeContext = createContext<[State, (action: Action) => void]>(
+  [readCodeInitialState, () => {}],
+);
 
 export const ReadCodeContextContainer: FC<{
   children: ReactNode;

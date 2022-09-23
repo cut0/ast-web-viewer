@@ -40,7 +40,6 @@ export const explorerCodeReducer: Reducer<State, Action> = (
 };
 
 export const ExplorerCodeContext = createContext<
-  // eslint-disable-next-line no-unused-vars
   [State, (action: Action) => void]
 >([explorerCodeInitialState, () => {}]);
 

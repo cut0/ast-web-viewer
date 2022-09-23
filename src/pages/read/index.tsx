@@ -1,37 +1,12 @@
-import {
-  MultiEditorContainer,
-  AnalyticsLinkContainer,
-  AnalyticsLink,
-} from "./index.css";
-import { CustomEditor } from "../../components/CustomEditor";
-import { CustomViewer } from "../../components/CustomViewer";
-import { useState, FC } from "react";
-import { convertAstString } from "../../features/code/AstUtils";
-import { Link } from "react-router-dom";
+import { NextPage } from "next";
+import { ReadPageContent } from "../../components/content/read";
 
-const ReadPage: FC = () => {
-  const [astString, setAstString] = useState("");
-
+const Read: NextPage = () => {
   return (
-    <div className={MultiEditorContainer}>
-      <div className={AnalyticsLinkContainer}>
-        <Link to="/write/analytics">
-          <button className={AnalyticsLink}>Analytics へ</button>
-        </Link>
-      </div>
-      <CustomEditor
-        onCodeChange={(code) => {
-          convertAstString(code).then((ast) => {
-            if (ast === undefined) {
-              return;
-            }
-            setAstString(ast);
-          });
-        }}
-      />
-      <CustomViewer code={astString} />
-    </div>
+    <>
+      <ReadPageContent />
+    </>
   );
 };
 
-export default ReadPage;
+export default Read;

@@ -1,7 +1,12 @@
-import { FC } from "react";
+import { NextPage } from "next";
+import { ReadAnalyticsPageContent } from "../../components/content/read/analytics";
 
-const ReadAnalyticsPage: FC = () => {
-  return <p>コードリーディングの分析ページ</p>;
+const ReadAnalytics: NextPage = () => {
+  return (
+    <>
+      <ReadAnalyticsPageContent />
+    </>
+  );
 };
 
-export default ReadAnalyticsPage;
+export default ReadAnalytics;
