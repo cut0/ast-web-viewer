@@ -21,10 +21,10 @@ import {
 } from "./analytics.css";
 
 export const ExperimentAnalyticsPageContent: FC = () => {
-  const [nodeList] = useContext(ExperimentCodeContext);
+  const [experimentalCode] = useContext(ExperimentCodeContext);
   const rawNodeDatum: RawNodeDatum | undefined = useMemo(() => {
-    const baseNodeList: Required<RawNodeDatum>[] = nodeList.payload.map(
-      (node) => {
+    const baseNodeList: Required<RawNodeDatum>[] =
+      experimentalCode.payload.nodeList.map((node) => {
         return {
           name: node.type,
           attributes: {
@@ -34,8 +34,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
           },
           children: [] as RawNodeDatum[],
         };
-      },
-    );
+      });
 
     while (true) {
       const targetNode = baseNodeList.pop();
@@ -50,7 +49,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
         return node;
       });
     }
-  }, [nodeList]);
+  }, [experimentalCode]);
 
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
@@ -114,7 +113,14 @@ export const ExperimentAnalyticsPageContent: FC = () => {
       <ConfirmModalContainer
         isOpen={showSubmitConfirmModal}
         onClickAccept={() => {
-          uploadHandler(JSON.stringify(rawNodeDatum), "experiment", "0000");
+          uploadHandler(
+            JSON.stringify({
+              rawNodeDatum,
+              baseCode: experimentalCode.payload.baseCode,
+            }),
+            "experiment",
+            "0000",
+          );
           setShowSubmitConfirmModal(false);
         }}
         onClickCancel={() => {

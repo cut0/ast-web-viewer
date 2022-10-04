@@ -25,13 +25,13 @@ export const ExperimentPageContent: FC = () => {
         </Link>
       </div>
       <CustomEditor
-        onCodeChange={(code) => {
-          convertCustomTree(code).then((nodeList) => {
+        onCodeChange={(baseCode) => {
+          convertCustomTree(baseCode).then((nodeList) => {
             if (nodeList === undefined) {
               dispatch({ type: "RESET_NODE_LIST" });
               return;
             }
-            dispatch({ type: "UPDATE_NODE_LIST", nodeList });
+            dispatch({ type: "UPDATE_NODE_LIST", nodeList, baseCode });
           });
         }}
       />
