@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WriteCodeContextContainer>
       <ReadCodeContextContainer>
         <ExplorerCodeContextContainer>
-          <Component {...pageProps} />;
+          <Component {...pageProps} />
         </ExplorerCodeContextContainer>
       </ReadCodeContextContainer>
     </WriteCodeContextContainer>
