@@ -14,12 +14,15 @@ type BucketType = "reading" | "writing" | "experiment";
 const uploadJson = async (
   content: string,
   bucketType: BucketType,
+  createUserId: string,
   userId: string,
 ) => {
   const storage = getStorage();
   const storageRef = ref(
     storage,
-    `/${bucketType}/${userId}/${Math.random().toString(32).substring(2)}.json`,
+    `/${createUserId}/${bucketType}/${userId}/${Math.random()
+      .toString(32)
+      .substring(2)}.json`,
   );
   return await uploadString(storageRef, content);
 };
@@ -37,7 +40,7 @@ export const useUploadAnalytics = () => {
   });
 
   const handler = useCallback(() => {
-    async (content: string, bucketType: BucketType) => {
+    async (content: string, bucketType: BucketType, userId: string) => {
       if (authState.status !== "login") {
         return;
       }
@@ -47,6 +50,7 @@ export const useUploadAnalytics = () => {
         content,
         bucketType,
         authState.payload.uid,
+        userId,
       ).catch(handleApiError);
       if (uploadJsonResponse instanceof Error) {
         setUploadState({ status: "failed", error: uploadJsonResponse });
@@ -63,7 +67,8 @@ export const useUploadAnalytics = () => {
 
       const db = getFirestore();
       const docRefResponse = await addDoc(collection(db, bucketType), {
-        userId: authState.payload.uid,
+        userId,
+        createUserId: authState.payload.uid,
         url: jsonDownloadUrlResponse,
       }).catch(handleApiError);
       if (docRefResponse instanceof Error) {
