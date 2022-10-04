@@ -3,7 +3,7 @@ import Tree from "react-d3-tree";
 import { RawNodeDatum } from "react-d3-tree/lib/types/common";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { ExperimentalCodeContext } from "../../../features/experimental/CodeProvider";
+import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
 import { ConfirmModalContainer } from "../../common/ConfirmModalContainer";
 import { AuthContext } from "../../../features/auth/AuthProvider";
 import {
@@ -20,8 +20,8 @@ import {
   SubmitCodeButton,
 } from "./analytics.css";
 
-export const ExperimentalAnalyticsPageContent: FC = () => {
-  const [nodeList] = useContext(ExperimentalCodeContext);
+export const ExperimentAnalyticsPageContent: FC = () => {
+  const [nodeList] = useContext(ExperimentCodeContext);
   const rawNodeDatum: RawNodeDatum | undefined = useMemo(() => {
     const baseNodeList: Required<RawNodeDatum>[] = nodeList.payload.map(
       (node) => {
@@ -60,7 +60,7 @@ export const ExperimentalAnalyticsPageContent: FC = () => {
   const router = useRouter();
   useEffect(() => {
     if (rawNodeDatum === undefined) {
-      router.push("/experimental");
+      router.push("/experiment");
     }
   }, [rawNodeDatum, router]);
 

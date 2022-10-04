@@ -3,15 +3,15 @@ import Link from "next/link";
 import { CustomEditor } from "../../CustomEditor";
 import { CustomViewer } from "../../CustomViewer";
 import { convertCustomTree } from "../../../features/code/AstUtils";
-import { ExperimentalCodeContext } from "../../../features/experimental/CodeProvider";
+import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
 import {
   MultiEditorContainer,
   AnalyticsLinkContainer,
   AnalyticsLink,
 } from "./index.css";
 
-export const ExperimentalPageContent: FC = () => {
-  const [nodeList, dispatch] = useContext(ExperimentalCodeContext);
+export const ExperimentPageContent: FC = () => {
+  const [nodeList, dispatch] = useContext(ExperimentCodeContext);
 
   const nodeListString = useMemo(() => {
     return JSON.stringify(nodeList.payload, null, 2);
@@ -20,7 +20,7 @@ export const ExperimentalPageContent: FC = () => {
   return (
     <div className={MultiEditorContainer}>
       <div className={AnalyticsLinkContainer}>
-        <Link href="/experimental/analytics">
+        <Link href="/experiment/analytics">
           <button className={AnalyticsLink}>Analytics へ</button>
         </Link>
       </div>
