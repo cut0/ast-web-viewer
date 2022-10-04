@@ -53,7 +53,6 @@ export const useUploadAnalytics = () => {
         userId,
       ).catch(handleApiError);
       if (uploadJsonResponse instanceof Error) {
-        console.log(uploadJsonResponse);
         setUploadState({ status: "failed", error: uploadJsonResponse });
         return;
       }
