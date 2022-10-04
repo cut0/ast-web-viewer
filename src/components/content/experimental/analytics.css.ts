@@ -1,16 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { background, basic, color, text } from "../../../features/styles/theme";
 
-export const NotFoundPageContainer = style({
-  maxWidth: "960px",
-  margin: "0 auto",
-  padding: "32px",
-});
-
-export const LinkButton = style({
-  color: basic.primary,
-});
-
 export const PageContainer = style({
   width: "100%",
   padding: "32px",
@@ -29,12 +19,15 @@ export const Header = style({
 
 export const ProfileImageContainer = style({
   backgroundColor: background.loading,
+  position: "relative",
   height: "100%",
   borderRadius: "50%",
   aspectRatio: "1 / 1",
   border: "none",
   cursor: "pointer",
 });
+
+export const ProfileImage = style({ borderRadius: "50%" });
 
 export const SubmitCodeButton = style({
   color: text.highLight,

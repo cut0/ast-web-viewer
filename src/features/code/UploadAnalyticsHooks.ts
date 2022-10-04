@@ -39,7 +39,7 @@ export const useUploadAnalytics = () => {
     status: "initial",
   });
 
-  const handler = useCallback(() => {
+  const handler = useCallback(
     async (content: string, bucketType: BucketType, userId: string) => {
       if (authState.status !== "login") {
         return;
@@ -53,6 +53,7 @@ export const useUploadAnalytics = () => {
         userId,
       ).catch(handleApiError);
       if (uploadJsonResponse instanceof Error) {
+        console.log(uploadJsonResponse);
         setUploadState({ status: "failed", error: uploadJsonResponse });
         return;
       }
@@ -77,8 +78,9 @@ export const useUploadAnalytics = () => {
       }
 
       setUploadState({ status: "success" });
-    };
-  }, [authState]);
+    },
+    [authState],
+  );
 
-  return [uploadState, handler];
+  return [uploadState, handler] as const;
 };

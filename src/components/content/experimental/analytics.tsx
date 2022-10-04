@@ -1,16 +1,21 @@
-import { FC, useContext, useMemo, useState } from "react";
+import { FC, useContext, useEffect, useMemo, useState } from "react";
 import Tree from "react-d3-tree";
 import { RawNodeDatum } from "react-d3-tree/lib/types/common";
-import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ExperimentalCodeContext } from "../../../features/experimental/CodeProvider";
 import { ConfirmModalContainer } from "../../common/ConfirmModalContainer";
+import { AuthContext } from "../../../features/auth/AuthProvider";
 import {
-  NotFoundPageContainer,
+  logInWithGoogle,
+  logOutOfGoogle,
+} from "../../../features/auth/AuthUtils";
+import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks";
+import {
   PageContainer,
   TreeViewerContainer,
-  LinkButton,
   Header,
+  ProfileImage,
   ProfileImageContainer,
   SubmitCodeButton,
 } from "./analytics.css";
@@ -47,57 +52,89 @@ export const ExperimentalAnalyticsPageContent: FC = () => {
     }
   }, [nodeList]);
 
-  const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(true);
-  const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(true);
+  const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
+  const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
+  const [uploadState, uploadHandler] = useUploadAnalytics();
+  const [authState] = useContext(AuthContext);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (rawNodeDatum === undefined) {
+      router.push("/experimental");
+    }
+  }, [rawNodeDatum, router]);
+
+  if (rawNodeDatum === undefined) {
+    return null;
+  }
 
   return (
     <>
-      {rawNodeDatum === undefined ? (
-        <div className={NotFoundPageContainer}>
-          <p>
-            データがありません。 探索ページに
-            <Link href="/experimental" passHref>
-              <a className={LinkButton}>戻る</a>
-            </Link>
-          </p>
+      <div className={PageContainer}>
+        <header className={Header}>
+          {authState.status === "login" && (
+            <button
+              className={ProfileImageContainer}
+              onClick={() => {
+                setShowLogOutConfirmModal(true);
+              }}
+            >
+              <Image
+                alt="profile-icon"
+                className={ProfileImage}
+                layout="fill"
+                src={
+                  authState.payload.photoURL?.replace("=s96-c", "=s200-c") ?? ""
+                }
+              ></Image>
+            </button>
+          )}
+          {authState.status !== "login" && (
+            <button
+              className={ProfileImageContainer}
+              onClick={() => {
+                logInWithGoogle();
+              }}
+            />
+          )}
+          <button
+            className={SubmitCodeButton}
+            type="button"
+            onClick={() => {
+              setShowSubmitConfirmModal(true);
+            }}
+          >
+            Submit
+          </button>
+        </header>
+        <div className={TreeViewerContainer}>
+          <Tree data={rawNodeDatum} />
         </div>
-      ) : (
-        <>
-          <div className={PageContainer}>
-            <header className={Header}>
-              <button className={ProfileImageContainer}></button>
-              <button className={SubmitCodeButton} type="button">
-                Submit
-              </button>
-            </header>
-            <div className={TreeViewerContainer}>
-              <Tree data={rawNodeDatum} />
-            </div>
-          </div>
-          <ConfirmModalContainer
-            isOpen={showSubmitConfirmModal}
-            onClickAccept={() => {
-              setShowSubmitConfirmModal(false);
-            }}
-            onClickCancel={() => {
-              setShowSubmitConfirmModal(false);
-            }}
-          >
-            <p>ログを登録しますか？</p>
-          </ConfirmModalContainer>
-          <ConfirmModalContainer
-            isOpen={showLogOutConfirmModal}
-            onClickAccept={() => {
-              setShowLogOutConfirmModal(false);
-            }}
-            onClickCancel={() => {
-              setShowLogOutConfirmModal(false);
-            }}
-          >
-            <p>ログアウトしますか？</p>
-          </ConfirmModalContainer>
-        </>
-      )}
+      </div>
+      <ConfirmModalContainer
+        isOpen={showSubmitConfirmModal}
+        onClickAccept={() => {
+          uploadHandler(JSON.stringify(rawNodeDatum), "experiment", "0000");
+          setShowSubmitConfirmModal(false);
+        }}
+        onClickCancel={() => {
+          setShowSubmitConfirmModal(false);
+        }}
+      >
+        <p>ログを登録しますか？</p>
+      </ConfirmModalContainer>
+      <ConfirmModalContainer
+        isOpen={showLogOutConfirmModal}
+        onClickAccept={() => {
+          logOutOfGoogle();
+          setShowLogOutConfirmModal(false);
+        }}
+        onClickCancel={() => {
+          setShowLogOutConfirmModal(false);
+        }}
+      >
+        <p>ログアウトしますか？</p>
+      </ConfirmModalContainer>
     </>
   );
 };

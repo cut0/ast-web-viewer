@@ -9,6 +9,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
 };
 
 module.exports = withBundleAnalyzer(withVanillaExtract(nextConfig));
