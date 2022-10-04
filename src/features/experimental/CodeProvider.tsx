@@ -11,9 +11,9 @@ type State = {
   payload: CustomNode[];
 };
 
-export const explorerCodeInitialState: State = { payload: [] };
+export const experimentalCodeInitialState: State = { payload: [] };
 
-export const explorerCodeReducer: Reducer<State, Action> = (
+export const experimentalCodeReducer: Reducer<State, Action> = (
   state: State,
   action: Action,
 ) => {
@@ -39,21 +39,21 @@ export const explorerCodeReducer: Reducer<State, Action> = (
   }
 };
 
-export const ExplorerCodeContext = createContext<
+export const ExperimentalCodeContext = createContext<
   [State, (action: Action) => void]
->([explorerCodeInitialState, () => {}]);
+>([experimentalCodeInitialState, () => {}]);
 
-export const ExplorerCodeContextContainer: FC<{
+export const ExperimentalCodeContextContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const [state, dispatch] = useReducer(
-    explorerCodeReducer,
-    explorerCodeInitialState,
+    experimentalCodeReducer,
+    experimentalCodeInitialState,
   );
 
   return (
-    <ExplorerCodeContext.Provider value={[state, dispatch]}>
+    <ExperimentalCodeContext.Provider value={[state, dispatch]}>
       {children}
-    </ExplorerCodeContext.Provider>
+    </ExperimentalCodeContext.Provider>
   );
 };

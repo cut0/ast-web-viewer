@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import { WriteCodeContextContainer } from "../features/write/CodeProvider";
 import { ReadCodeContextContainer } from "../features/read/CodeProvider";
-import { ExplorerCodeContextContainer } from "../features/explorer/CodeProvider";
+import { ExperimentalCodeContextContainer } from "../features/experimental/CodeProvider";
 
 import "modern-css-reset";
 import "../features/styles/global.css";
@@ -10,9 +10,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WriteCodeContextContainer>
       <ReadCodeContextContainer>
-        <ExplorerCodeContextContainer>
+        <ExperimentalCodeContextContainer>
           <Component {...pageProps} />
-        </ExplorerCodeContextContainer>
+        </ExperimentalCodeContextContainer>
       </ReadCodeContextContainer>
     </WriteCodeContextContainer>
   );

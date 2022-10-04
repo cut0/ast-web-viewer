@@ -27,13 +27,13 @@ export const HomePageContent: FC = () => {
             <span className={CardNav}>Writingページへ</span>
           </a>
         </Link>
-        <Link href="/explorer" passHref>
+        <Link href="/experimental" passHref>
           <a className={CardContainer}>
-            <h2 className={CardTitle}>Explorer</h2>
+            <h2 className={CardTitle}>Experimental</h2>
             <section className={CardSummary}>
               ASTのライブ変換を確認するページです
             </section>
-            <span className={CardNav}>Explorerページへ</span>
+            <span className={CardNav}>Experimentalページへ</span>
           </a>
         </Link>
       </div>

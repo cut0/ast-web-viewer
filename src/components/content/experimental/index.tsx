@@ -1,17 +1,17 @@
 import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
-import { CustomEditor } from "../../../components/CustomEditor";
-import { CustomViewer } from "../../../components/CustomViewer";
+import { CustomEditor } from "../../CustomEditor";
+import { CustomViewer } from "../../CustomViewer";
 import { convertCustomTree } from "../../../features/code/AstUtils";
-import { ExplorerCodeContext } from "../../../features/explorer/CodeProvider";
+import { ExperimentalCodeContext } from "../../../features/experimental/CodeProvider";
 import {
   MultiEditorContainer,
   AnalyticsLinkContainer,
   AnalyticsLink,
 } from "./index.css";
 
-export const ExplorerPageContent: FC = () => {
-  const [nodeList, dispatch] = useContext(ExplorerCodeContext);
+export const ExperimentalPageContent: FC = () => {
+  const [nodeList, dispatch] = useContext(ExperimentalCodeContext);
 
   const nodeListString = useMemo(() => {
     return JSON.stringify(nodeList.payload, null, 2);
@@ -20,7 +20,7 @@ export const ExplorerPageContent: FC = () => {
   return (
     <div className={MultiEditorContainer}>
       <div className={AnalyticsLinkContainer}>
-        <Link href="/explorer/analytics">
+        <Link href="/experimental/analytics">
           <button className={AnalyticsLink}>Analytics へ</button>
         </Link>
       </div>
