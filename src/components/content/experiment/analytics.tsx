@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useMemo, useState } from "react";
+import { FC, useContext, useEffect, useMemo, useRef, useState } from "react";
 import Tree from "react-d3-tree";
 import { RawNodeDatum } from "react-d3-tree/lib/types/common";
 import Image from "next/image";
@@ -18,6 +18,8 @@ import {
   ProfileImage,
   ProfileImageContainer,
   SubmitCodeButton,
+  UserInputContainer,
+  UserInputLabel,
 } from "./analytics.css";
 
 export const ExperimentAnalyticsPageContent: FC = () => {
@@ -55,6 +57,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
   const [uploadState, uploadHandler] = useUploadAnalytics();
   const [authState] = useContext(AuthContext);
+  const userIdRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
   useEffect(() => {
@@ -113,13 +116,16 @@ export const ExperimentAnalyticsPageContent: FC = () => {
       <ConfirmModalContainer
         isOpen={showSubmitConfirmModal}
         onClickAccept={() => {
+          if (userIdRef.current === null) {
+            return;
+          }
           uploadHandler(
             JSON.stringify({
               rawNodeDatum,
               baseCode: experimentalCode.payload.baseCode,
             }),
             "experiment",
-            "0000",
+            userIdRef.current.value,
           );
           setShowSubmitConfirmModal(false);
         }}
@@ -128,6 +134,10 @@ export const ExperimentAnalyticsPageContent: FC = () => {
         }}
       >
         <p>ログを登録しますか？</p>
+        <div className={UserInputContainer}>
+          <label className={UserInputLabel}>User ID</label>
+          <input ref={userIdRef} />
+        </div>
       </ConfirmModalContainer>
       <ConfirmModalContainer
         isOpen={showLogOutConfirmModal}

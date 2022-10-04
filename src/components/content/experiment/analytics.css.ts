@@ -43,3 +43,11 @@ export const TreeViewerContainer = style({
   borderRadius: "16px",
   boxShadow: "0 1px 10px -4px #c6c8ca",
 });
+
+export const UserInputContainer = style({
+  paddingTop: "16px",
+});
+
+export const UserInputLabel = style({
+  marginRight: "16px",
+});
