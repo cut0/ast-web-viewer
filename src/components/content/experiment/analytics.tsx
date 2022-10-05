@@ -3,13 +3,11 @@ import Tree from "react-d3-tree";
 import { RawNodeDatum } from "react-d3-tree/lib/types/common";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
 import { ConfirmModalContainer } from "../../common/ConfirmModalContainer";
 import { AuthContext } from "../../../features/auth/AuthProvider";
-import {
-  logInWithGoogle,
-  logOutOfGoogle,
-} from "../../../features/auth/AuthUtils";
+import { logOutOfGoogle } from "../../../features/auth/AuthUtils";
 import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks";
 import { useHandleApi } from "../../../features/common/ApiHooks";
 import { convertRawNodeDatum } from "../../../features/code/AstUtils";
@@ -22,6 +20,7 @@ import {
   SubmitCodeButton,
   UserInputContainer,
   UserInputLabel,
+  LinkLabel,
 } from "./analytics.css";
 
 export const ExperimentAnalyticsPageContent: FC = () => {
@@ -59,39 +58,39 @@ export const ExperimentAnalyticsPageContent: FC = () => {
       <div className={PageContainer}>
         <header className={Header}>
           {authState.status === "login" && (
-            <button
-              className={ProfileImageContainer}
-              onClick={() => {
-                setShowLogOutConfirmModal(true);
-              }}
-            >
-              <Image
-                alt="profile-icon"
-                className={ProfileImage}
-                layout="fill"
-                src={
-                  authState.payload.photoURL?.replace("=s96-c", "=s200-c") ?? ""
-                }
-              ></Image>
-            </button>
+            <>
+              <button
+                className={ProfileImageContainer}
+                onClick={() => {
+                  setShowLogOutConfirmModal(true);
+                }}
+              >
+                <Image
+                  alt="profile-icon"
+                  className={ProfileImage}
+                  layout="fill"
+                  src={
+                    authState.payload.photoURL?.replace("=s96-c", "=s200-c") ??
+                    ""
+                  }
+                ></Image>
+              </button>
+              <button
+                className={SubmitCodeButton}
+                type="button"
+                onClick={() => {
+                  setShowSubmitConfirmModal(true);
+                }}
+              >
+                登録
+              </button>
+            </>
           )}
           {authState.status !== "login" && (
-            <button
-              className={ProfileImageContainer}
-              onClick={() => {
-                logInWithGoogle();
-              }}
-            />
+            <Link href="/" passHref>
+              <a className={LinkLabel}> ログインページへ</a>
+            </Link>
           )}
-          <button
-            className={SubmitCodeButton}
-            type="button"
-            onClick={() => {
-              setShowSubmitConfirmModal(true);
-            }}
-          >
-            Submit
-          </button>
         </header>
         <div className={TreeViewerContainer}>
           <Tree data={rawNodeDatum} />

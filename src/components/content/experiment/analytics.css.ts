@@ -38,6 +38,15 @@ export const SubmitCodeButton = style({
   cursor: "pointer",
 });
 
+export const LinkLabel = style({
+  color: text.highLight,
+  backgroundColor: basic.primary,
+  border: "none",
+  borderRadius: "16px",
+  padding: "8px 16px",
+  cursor: "pointer",
+});
+
 export const TreeViewerContainer = style({
   border: color.black,
   borderRadius: "16px",
