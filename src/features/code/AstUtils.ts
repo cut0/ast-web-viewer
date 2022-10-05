@@ -22,7 +22,7 @@ export type CustomNode = {
   specificValue?: string;
 };
 
-export const convertCustomTree = async (
+export const convertCustomNodeList = async (
   code: string,
 ): Promise<CustomNode[] | undefined> => {
   const [babylon, traverse] = await Promise.all([

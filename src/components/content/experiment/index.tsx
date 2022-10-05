@@ -2,7 +2,7 @@ import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
 import { CustomEditor } from "../../CustomEditor";
 import { CustomViewer } from "../../CustomViewer";
-import { convertCustomTree } from "../../../features/code/AstUtils";
+import { convertCustomNodeList } from "../../../features/code/AstUtils";
 import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
 import {
   MultiEditorContainer,
@@ -27,7 +27,7 @@ export const ExperimentPageContent: FC = () => {
       <CustomEditor
         defaultValue={experimentalCode.payload.baseCode}
         onCodeChange={(baseCode) => {
-          convertCustomTree(baseCode).then((nodeList) => {
+          convertCustomNodeList(baseCode).then((nodeList) => {
             if (nodeList === undefined) {
               dispatch({ type: "RESET_NODE_LIST" });
               return;

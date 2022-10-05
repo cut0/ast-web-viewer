@@ -2,7 +2,7 @@ import { useState, FC } from "react";
 import Link from "next/link";
 import { CustomEditor } from "../../../components/CustomEditor";
 import { CustomViewer } from "../../../components/CustomViewer";
-import { convertCustomTree } from "../../../features/code/AstUtils";
+import { convertCustomNodeList } from "../../../features/code/AstUtils";
 import {
   MultiEditorContainer,
   AnalyticsLinkContainer,
@@ -21,7 +21,7 @@ export const WritePageContent: FC = () => {
       </div>
       <CustomEditor
         onCodeChange={(code) => {
-          convertCustomTree(code).then((ast) => {
+          convertCustomNodeList(code).then((ast) => {
             if (ast === undefined) {
               setAstString("");
               return;
