@@ -45,7 +45,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
   const router = useRouter();
   useEffect(() => {
     if (rawNodeDatum === undefined) {
-      router.push("/experiment");
+      router.replace("/experiment");
     }
   }, [rawNodeDatum, router]);
 
