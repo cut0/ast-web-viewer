@@ -1,8 +1,9 @@
-import { useState, FC } from "react";
+import { useState, FC, useContext } from "react";
 import Link from "next/link";
 import { CustomEditor } from "../../../components/CustomEditor";
 import { CustomViewer } from "../../../components/CustomViewer";
 import { convertCustomNodeList } from "../../../features/code/AstUtils";
+import { AuthContext } from "../../../features/auth/AuthProvider";
 import {
   MultiEditorContainer,
   AnalyticsLinkContainer,
@@ -11,13 +12,20 @@ import {
 
 export const WritePageContent: FC = () => {
   const [astString, setAstString] = useState("");
+  const [authState] = useContext(AuthContext);
 
   return (
     <div className={MultiEditorContainer}>
       <div className={AnalyticsLinkContainer}>
-        <Link href="/write/analytics">
-          <button className={AnalyticsLink}>Analytics へ</button>
-        </Link>
+        {authState.status === "login" ? (
+          <Link href="/write/analytics" passHref>
+            <a className={AnalyticsLink}>分析ページへ</a>
+          </Link>
+        ) : (
+          <Link href="/" passHref>
+            <a className={AnalyticsLink}>ログインページへ</a>
+          </Link>
+        )}
       </div>
       <CustomEditor
         onCodeChange={(code) => {
