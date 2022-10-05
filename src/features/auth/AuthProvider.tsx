@@ -9,6 +9,7 @@ import {
 } from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { useHandleApi } from "../common/ApiHooks";
 
 type Action =
   | { type: "FETCH_ME_SUCCESS"; payload: User }
@@ -51,6 +52,14 @@ export const AuthContextContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState);
+  const LogInToastComponent = useHandleApi({
+    status: state.status === "login" ? "success" : "initial",
+    successMessage: "ログインしました",
+  });
+  const LogOutToastComponent = useHandleApi({
+    status: state.status === "logout" ? "success" : "initial",
+    successMessage: "ログアウトしました",
+  });
   initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -79,6 +88,8 @@ export const AuthContextContainer: FC<{
   return (
     <AuthContext.Provider value={[state, dispatch]}>
       {children}
+      {LogInToastComponent}
+      {LogOutToastComponent}
     </AuthContext.Provider>
   );
 };

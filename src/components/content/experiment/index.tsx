@@ -11,11 +11,11 @@ import {
 } from "./index.css";
 
 export const ExperimentPageContent: FC = () => {
-  const [nodeList, dispatch] = useContext(ExperimentCodeContext);
+  const [experimentalCode, dispatch] = useContext(ExperimentCodeContext);
 
   const nodeListString = useMemo(() => {
-    return JSON.stringify(nodeList.payload, null, 2);
-  }, [nodeList]);
+    return JSON.stringify(experimentalCode.payload.nodeList, null, 2);
+  }, [experimentalCode]);
 
   return (
     <div className={MultiEditorContainer}>
@@ -25,6 +25,7 @@ export const ExperimentPageContent: FC = () => {
         </Link>
       </div>
       <CustomEditor
+        defaultValue={experimentalCode.payload.baseCode}
         onCodeChange={(baseCode) => {
           convertCustomTree(baseCode).then((nodeList) => {
             if (nodeList === undefined) {

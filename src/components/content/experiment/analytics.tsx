@@ -11,6 +11,7 @@ import {
   logOutOfGoogle,
 } from "../../../features/auth/AuthUtils";
 import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks";
+import { useHandleApi } from "../../../features/common/ApiHooks";
 import {
   PageContainer,
   TreeViewerContainer,
@@ -56,6 +57,11 @@ export const ExperimentAnalyticsPageContent: FC = () => {
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
   const [uploadState, uploadHandler] = useUploadAnalytics();
+  const ToastComponent = useHandleApi({
+    status: uploadState.status,
+    successMessage: "アップロード完了",
+    errorMessage: "アップロード失敗",
+  });
   const [authState] = useContext(AuthContext);
   const userIdRef = useRef<HTMLInputElement>(null);
 
@@ -151,6 +157,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
       >
         <p>ログアウトしますか？</p>
       </ConfirmModalContainer>
+      {ToastComponent}
     </>
   );
 };
