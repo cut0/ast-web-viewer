@@ -1,11 +1,31 @@
 import { style } from "@vanilla-extract/css";
-import { basic, fontSize } from "../../features/styles/theme";
+import { basic, fontSize, background } from "../../features/styles/theme";
 
 export const PageContainer = style({
   maxWidth: "960px",
   margin: "0 auto",
   padding: "32px",
 });
+
+export const Header = style({
+  gridColumn: "1 / -1",
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: "16px",
+  padding: "16px 0",
+});
+
+export const ProfileImageContainer = style({
+  backgroundColor: background.loading,
+  position: "relative",
+  height: "40px",
+  width: "40px",
+  borderRadius: "50%",
+  border: "none",
+  cursor: "pointer",
+});
+
+export const ProfileImage = style({ borderRadius: "50%" });
 
 export const CardListContainer = style({
   display: "grid",
