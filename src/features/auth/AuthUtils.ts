@@ -12,7 +12,7 @@ export const logInWithGoogle = async (errorCallback?: () => void) => {
   const response = await signInWithPopup(auth, provider).catch(handleApiError);
   if (response instanceof Error) {
     errorCallback && errorCallback();
-    throw Error("failed");
+    return Error("failed");
   }
   return;
 };
@@ -22,7 +22,7 @@ export const logOutOfGoogle = async (errorCallback?: () => void) => {
   const response = await signOut(auth).catch(handleApiError);
   if (response instanceof Error) {
     errorCallback && errorCallback();
-    throw Error("failed");
+    return Error("failed");
   }
   return;
 };
