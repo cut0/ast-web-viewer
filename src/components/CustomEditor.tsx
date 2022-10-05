@@ -17,7 +17,6 @@ export const CustomEditor: FC<CustomEditorProps> = ({
     editorRef.current = editor;
     monaco.languages.registerHoverProvider("javascript", {
       provideHover: (model, position) => {
-        console.log(position);
         console.log(model.getWordAtPosition(position));
         return null;
       },
