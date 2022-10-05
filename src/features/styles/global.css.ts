@@ -12,6 +12,6 @@ globalStyle("a", {
   textDecoration: "none",
 });
 
-globalStyle("a:any-link", {
+globalStyle("a", {
   color: text.default,
 });
