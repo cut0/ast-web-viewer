@@ -1,4 +1,5 @@
 import type { Node, NodePath } from "babel-traverse";
+import { RawNodeDatum } from "react-d3-tree/lib/types/common";
 
 export const convertAstString = async (
   code: string,
@@ -71,5 +72,33 @@ export const convertCustomNodeList = async (
     console.log(e);
     console.info("パース失敗");
     return undefined;
+  }
+};
+
+export const convertRawNodeDatum = (nodeList: CustomNode[]) => {
+  const baseNodeList: Required<RawNodeDatum>[] = nodeList.map((node) => {
+    return {
+      name: node.type,
+      attributes: {
+        id: node.id,
+        parentId: node.parentId ?? "",
+        value: node.specificValue ?? "",
+      },
+      children: [] as RawNodeDatum[],
+    };
+  });
+
+  while (true) {
+    const targetNode = baseNodeList.pop();
+    if (targetNode === undefined || targetNode.attributes.parentId === "") {
+      return targetNode;
+    }
+    baseNodeList.map((node) => {
+      if (node.attributes.id !== targetNode.attributes.parentId) {
+        return node;
+      }
+      node.children.push(targetNode);
+      return node;
+    });
   }
 };

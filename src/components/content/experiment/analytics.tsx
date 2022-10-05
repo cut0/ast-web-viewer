@@ -12,6 +12,7 @@ import {
 } from "../../../features/auth/AuthUtils";
 import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks";
 import { useHandleApi } from "../../../features/common/ApiHooks";
+import { convertRawNodeDatum } from "../../../features/code/AstUtils";
 import {
   PageContainer,
   TreeViewerContainer,
@@ -25,45 +26,22 @@ import {
 
 export const ExperimentAnalyticsPageContent: FC = () => {
   const [experimentalCode] = useContext(ExperimentCodeContext);
-  const rawNodeDatum: RawNodeDatum | undefined = useMemo(() => {
-    const baseNodeList: Required<RawNodeDatum>[] =
-      experimentalCode.payload.nodeList.map((node) => {
-        return {
-          name: node.type,
-          attributes: {
-            id: node.id,
-            parentId: node.parentId ?? "",
-            value: node.specificValue ?? "",
-          },
-          children: [] as RawNodeDatum[],
-        };
-      });
-
-    while (true) {
-      const targetNode = baseNodeList.pop();
-      if (targetNode === undefined || targetNode.attributes.parentId === "") {
-        return targetNode;
-      }
-      baseNodeList.map((node) => {
-        if (node.attributes.id !== targetNode.attributes.parentId) {
-          return node;
-        }
-        node.children.push(targetNode);
-        return node;
-      });
-    }
-  }, [experimentalCode]);
-
+  const [authState] = useContext(AuthContext);
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
+
+  const userIdRef = useRef<HTMLInputElement>(null);
+
   const [uploadState, uploadHandler] = useUploadAnalytics();
   const ToastComponent = useHandleApi({
     status: uploadState.status,
     successMessage: "アップロード完了",
     errorMessage: "アップロード失敗",
   });
-  const [authState] = useContext(AuthContext);
-  const userIdRef = useRef<HTMLInputElement>(null);
+
+  const rawNodeDatum: RawNodeDatum | undefined = useMemo(() => {
+    return convertRawNodeDatum(experimentalCode.payload.nodeList);
+  }, [experimentalCode]);
 
   const router = useRouter();
   useEffect(() => {
