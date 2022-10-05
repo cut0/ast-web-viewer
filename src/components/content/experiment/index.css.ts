@@ -8,14 +8,14 @@ export const MultiEditorContainer = style({
   gridTemplateRows: "auto 1fr",
 });
 
-export const AnalyticsLinkContainer = style({
+export const LinkContainer = style({
   gridColumn: "1 / -1",
   display: "flex",
   justifyContent: "flex-end",
   padding: "0 0 8px 0",
 });
 
-export const AnalyticsLink = style({
+export const LinkLabel = style({
   color: text.highLight,
   backgroundColor: basic.primary,
   border: "none",

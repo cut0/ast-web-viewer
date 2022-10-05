@@ -5,11 +5,7 @@ import { CustomViewer } from "../../CustomViewer";
 import { convertCustomNodeList } from "../../../features/code/AstUtils";
 import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
 import { AuthContext } from "../../../features/auth/AuthProvider";
-import {
-  MultiEditorContainer,
-  AnalyticsLinkContainer,
-  AnalyticsLink,
-} from "./index.css";
+import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 
 export const ExperimentPageContent: FC = () => {
   const [experimentalCode, dispatch] = useContext(ExperimentCodeContext);
@@ -21,14 +17,14 @@ export const ExperimentPageContent: FC = () => {
 
   return (
     <div className={MultiEditorContainer}>
-      <div className={AnalyticsLinkContainer}>
+      <div className={LinkContainer}>
         {authState.status === "login" ? (
           <Link href="/experiment/analytics" passHref>
-            <a className={AnalyticsLink}>分析ページへ</a>
+            <a className={LinkLabel}>分析ページへ</a>
           </Link>
         ) : (
           <Link href="/" passHref>
-            <a className={AnalyticsLink}>ログインページへ</a>
+            <a className={LinkLabel}>ログインページへ</a>
           </Link>
         )}
       </div>

@@ -4,11 +4,7 @@ import { CustomEditor } from "../../../components/CustomEditor";
 import { CustomViewer } from "../../../components/CustomViewer";
 import { convertAstString } from "../../../features/code/AstUtils";
 import { AuthContext } from "../../../features/auth/AuthProvider";
-import {
-  MultiEditorContainer,
-  AnalyticsLinkContainer,
-  AnalyticsLink,
-} from "./index.css";
+import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 
 export const ReadPageContent: FC = () => {
   const [astString, setAstString] = useState("");
@@ -16,14 +12,14 @@ export const ReadPageContent: FC = () => {
 
   return (
     <div className={MultiEditorContainer}>
-      <div className={AnalyticsLinkContainer}>
+      <div className={LinkContainer}>
         {authState.status === "login" ? (
           <Link href="/read/analytics" passHref>
-            <a className={AnalyticsLink}>分析ページへ</a>
+            <a className={LinkLabel}>分析ページへ</a>
           </Link>
         ) : (
           <Link href="/" passHref>
-            <a className={AnalyticsLink}>ログインページへ</a>
+            <a className={LinkLabel}>ログインページへ</a>
           </Link>
         )}
       </div>
