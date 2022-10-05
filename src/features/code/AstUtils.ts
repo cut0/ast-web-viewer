@@ -19,7 +19,18 @@ export type CustomNode = {
   id: number;
   parentId?: number;
   type: string;
-  postition: { start: number; end: number };
+  postition: {
+    start: {
+      byte: number;
+      line: number;
+      column: number;
+    };
+    end: {
+      byte: number;
+      line: number;
+      column: number;
+    };
+  };
   specificValue?: string;
 };
 
@@ -48,8 +59,8 @@ export const convertCustomNodeList = async (
         const baseNode = nodePath.node;
         const parentId = customNodeList.find((node) => {
           return (
-            nodePath.parent.start === node.postition.start &&
-            nodePath.parent.end === node.postition.end
+            nodePath.parent.start === node.postition.start.byte &&
+            nodePath.parent.end === node.postition.end.byte
           );
         })?.id;
 
@@ -57,7 +68,10 @@ export const convertCustomNodeList = async (
           id: customNodeList.length,
           parentId,
           type: baseNode.type,
-          postition: { start: baseNode.start, end: baseNode.end },
+          postition: {
+            start: { ...baseNode.loc.start, byte: baseNode.start },
+            end: { ...baseNode.loc.end, byte: baseNode.end },
+          },
           specificValue:
             baseNode.value !== undefined
               ? String(baseNode.value)
