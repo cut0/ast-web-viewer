@@ -61,6 +61,7 @@ export const ExperimentAnalyticsPageContent: FC = () => {
             <>
               <button
                 className={ProfileImageContainer}
+                type="button"
                 onClick={() => {
                   setShowLogOutConfirmModal(true);
                 }}
