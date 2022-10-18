@@ -1,9 +1,52 @@
 import { ReactNode, createContext, FC, Reducer, useReducer } from "react";
 import { CustomNode } from "../code/AstUtils";
 
-const BASE_CODE = `const main = () => {
-    console.log("hello")
-}`;
+const BASE_CODE = `const terminateFunc = (count, handler) => {
+  let countRef = 0;
+  return new Promise((resolve, reject) => {
+    if (count < 0) {
+      reject()
+    }
+    const timerId = setInterval(() => {
+      if (countRef === count) {
+        clearInterval(timerId)
+        resolve()
+        return
+      }
+      handler()
+      countRef += 1
+    }, 1000)
+  })
+
+}
+
+class TerninateFuncCreator {
+  constructor(count, handler) {
+    this.count = count;
+    this.handler = handler;
+  }
+  up() {
+    this.count += 1
+  }
+  down() {
+    this.count -= 1
+  }
+  async dispatch() {
+    return await terminateFunc(this.count, this.handler)
+  }
+}
+
+const main = () => {
+  const terminateFuncCreator = new TerninateFuncCreator(2, () => console.log("hello"))
+  terminateFuncCreator.up()
+  terminateFuncCreator.up()
+  terminateFuncCreator.down()
+  terminateFuncCreator.dispatch().then(() => {
+    console.log("Finish")
+  })
+}
+
+main()`;
 
 type Action =
   | { type: "SETUP_TARGET_CODE"; code: string; nodeList: CustomNode[] }
