@@ -1,7 +1,9 @@
 import { ReactNode, createContext, FC, Reducer, useReducer } from "react";
 import { CustomNode } from "../code/AstUtils";
 
-const BASE_CODE = "";
+const BASE_CODE = `const main = () => {
+    console.log("hello")
+}`;
 
 type Action =
   | { type: "SETUP_TARGET_CODE"; code: string; nodeList: CustomNode[] }
@@ -20,7 +22,6 @@ type State = {
       start: { line: number; column: number };
       end: { line: number; column: number };
     };
-    pointAt: Date;
   }[];
 };
 
@@ -43,10 +44,7 @@ export const readingReducer: Reducer<State, Action> = (
     case "UPDATE_READ_POINT":
       return {
         ...state,
-        payload: {
-          ...state.payload,
-          position: action.position,
-        },
+        payload: [...state.payload, { position: action.position }],
       };
   }
 };
