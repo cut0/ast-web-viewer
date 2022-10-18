@@ -96,9 +96,13 @@ export const convertRawNodeDatum = (nodeList: CustomNode[]) => {
       attributes: {
         id: node.id,
         parentId: node.parentId ?? "",
+        startLine: String(node.postition.start.line),
+        startColumn: String(node.postition.start.column),
+        endLine: String(node.postition.end.line),
+        endColumn: String(node.postition.end.column),
         value: node.specificValue ?? "",
       },
-      children: [] as RawNodeDatum[],
+      children: [] as Required<RawNodeDatum>[],
     };
   });
 
