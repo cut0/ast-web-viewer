@@ -3,12 +3,12 @@ import Link from "next/link";
 import { CustomEditor } from "../../CustomEditor";
 import { CustomViewer } from "../../CustomViewer";
 import { convertCustomNodeList } from "../../../features/code/AstUtils";
-import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
+import { ExperimentContext } from "../../../features/experiment/Provider";
 import { AuthContext } from "../../../features/auth/AuthProvider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 
 export const ExperimentPageContent: FC = () => {
-  const [experimentalCode, dispatch] = useContext(ExperimentCodeContext);
+  const [experimentalCode, dispatch] = useContext(ExperimentContext);
   const [authState] = useContext(AuthContext);
 
   const nodeListString = useMemo(() => {

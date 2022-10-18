@@ -4,7 +4,7 @@ import { RawNodeDatum } from "react-d3-tree/lib/types/common";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { ExperimentCodeContext } from "../../../features/experiment/CodeProvider";
+import { ExperimentContext } from "../../../features/experiment/Provider";
 import { ConfirmModalContainer } from "../../common/ConfirmModalContainer";
 import { AuthContext } from "../../../features/auth/AuthProvider";
 import { logOutOfGoogle } from "../../../features/auth/AuthUtils";
@@ -24,7 +24,7 @@ import {
 } from "./analytics.css";
 
 export const ExperimentAnalyticsPageContent: FC = () => {
-  const [experimentalCode] = useContext(ExperimentCodeContext);
+  const [experimentalCode] = useContext(ExperimentContext);
   const [authState] = useContext(AuthContext);
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);

@@ -14,14 +14,14 @@ type State = {
   };
 };
 
-export const experimentCodeInitialState: State = {
+export const experimentInitialState: State = {
   payload: {
     baseCode: "",
     nodeList: [],
   },
 };
 
-export const experimentCodeReducer: Reducer<State, Action> = (
+export const experimentReducer: Reducer<State, Action> = (
   state: State,
   action: Action,
 ) => {
@@ -59,21 +59,21 @@ export const experimentCodeReducer: Reducer<State, Action> = (
   }
 };
 
-export const ExperimentCodeContext = createContext<
+export const ExperimentContext = createContext<
   [State, (action: Action) => void]
->([experimentCodeInitialState, () => {}]);
+>([experimentInitialState, () => {}]);
 
-export const ExperimentCodeContextContainer: FC<{
+export const ExperimentContextContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const [state, dispatch] = useReducer(
-    experimentCodeReducer,
-    experimentCodeInitialState,
+    experimentReducer,
+    experimentInitialState,
   );
 
   return (
-    <ExperimentCodeContext.Provider value={[state, dispatch]}>
+    <ExperimentContext.Provider value={[state, dispatch]}>
       {children}
-    </ExperimentCodeContext.Provider>
+    </ExperimentContext.Provider>
   );
 };
