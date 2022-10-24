@@ -19,10 +19,8 @@ export const ReadPageContent: FC = () => {
   const [nodeList, setNodeList] = useState<CustomNode[] | undefined>(undefined);
 
   useEffect(() => {
-    (async () => {
-      const nodeList = await convertCustomNodeList(readingState.baseCode);
-      setNodeList(nodeList);
-    })();
+    const nodeList = convertCustomNodeList(readingState.baseCode);
+    setNodeList(nodeList);
   }, [readingState.baseCode]);
 
   const currentFocusNodePosition = useMemo(() => {

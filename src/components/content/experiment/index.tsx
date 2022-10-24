@@ -31,13 +31,12 @@ export const ExperimentPageContent: FC = () => {
       <CustomEditor
         defaultValue={experimentalCode.payload.baseCode}
         onCodeChange={(baseCode) => {
-          convertCustomNodeList(baseCode).then((nodeList) => {
-            if (nodeList === undefined) {
-              dispatch({ type: "RESET_NODE_LIST" });
-              return;
-            }
-            dispatch({ type: "UPDATE_NODE_LIST", nodeList, baseCode });
-          });
+          const nodeList = convertCustomNodeList(baseCode);
+          if (nodeList === undefined) {
+            dispatch({ type: "RESET_NODE_LIST" });
+            return;
+          }
+          dispatch({ type: "UPDATE_NODE_LIST", nodeList, baseCode });
         }}
       />
       <CustomViewer code={nodeListString} />

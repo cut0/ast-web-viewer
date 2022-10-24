@@ -71,10 +71,8 @@ export const ReadAnalyticsPageContent: FC = () => {
   });
 
   useEffect(() => {
-    (async () => {
-      const nodeList = await convertCustomNodeList(readingState.baseCode);
-      setNodeList(nodeList);
-    })();
+    const nodeList = convertCustomNodeList(readingState.baseCode);
+    setNodeList(nodeList);
   }, [readingState.baseCode]);
 
   const switchPlaying = useCallback(() => {

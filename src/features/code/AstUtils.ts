@@ -1,5 +1,7 @@
 import type { Node, NodePath } from "babel-traverse";
 import { RawNodeDatum } from "react-d3-tree/lib/types/common";
+import * as babylon from "babylon";
+import traverse from "babel-traverse";
 
 export const convertAstString = async (
   code: string,
@@ -34,19 +36,14 @@ export type CustomNode = {
   specificValue?: string;
 };
 
-export const convertCustomNodeList = async (
+export const convertCustomNodeList = (
   code: string,
-): Promise<CustomNode[] | undefined> => {
-  const [babylon, traverse] = await Promise.all([
-    import("babylon"),
-    import("babel-traverse"),
-  ]);
-
+): CustomNode[] | undefined => {
   const customNodeList: CustomNode[] = [];
 
   try {
     const ast = babylon.parse(code);
-    traverse.default(ast, {
+    traverse(ast, {
       enter(
         nodePath: NodePath & {
           node: Node & {

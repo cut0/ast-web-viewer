@@ -25,13 +25,12 @@ export const WritePageContent: FC = () => {
       </div>
       <CustomEditor
         onCodeChange={(code) => {
-          convertCustomNodeList(code).then((ast) => {
-            if (ast === undefined) {
-              setAstString("");
-              return;
-            }
-            setAstString(JSON.stringify(ast, null, 2));
-          });
+          const ast = convertCustomNodeList(code);
+          if (ast === undefined) {
+            setAstString("");
+            return;
+          }
+          setAstString(JSON.stringify(ast, null, 2));
         }}
       />
       <CustomViewer code={astString} />
