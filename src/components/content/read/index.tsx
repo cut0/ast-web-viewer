@@ -46,6 +46,9 @@ export const ReadPageContent: FC = () => {
       <CustomViewer
         code={readingState.baseCode}
         onHover={(position) => {
+          /**
+           * id 取り出し
+           */
           dispatchReading({ type: "UPDATE_READ_POINT", position });
         }}
       />

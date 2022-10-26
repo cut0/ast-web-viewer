@@ -51,13 +51,13 @@ export const ReadingTreeNodeElement: FC<ReadingTreeNodeElementProps> = ({
         ry="5"
         style={{
           width: "250",
-          height: "100",
+          height: "120",
           fill: `${
             isFullFocused ? "#FF4441" : isPartialFocused ? "#FFF86C" : "white"
           } `,
         }}
         x="-125"
-        y="-50"
+        y="-60"
       />
       <text
         style={{
@@ -66,7 +66,7 @@ export const ReadingTreeNodeElement: FC<ReadingTreeNodeElementProps> = ({
           fontWeight: "bold",
         }}
         x="-110"
-        y="-25"
+        y="-35"
       >
         {nodeDatum.name}
       </text>
@@ -76,7 +76,17 @@ export const ReadingTreeNodeElement: FC<ReadingTreeNodeElementProps> = ({
           strokeWidth: "0",
         }}
         x="-110"
-        y="0"
+        y="-10"
+      >
+        {`id：${nodeDatum.attributes?.id}`}
+      </text>
+      <text
+        style={{
+          fill: "black",
+          strokeWidth: "0",
+        }}
+        x="-110"
+        y="10"
       >
         {`value：${nodeDatum.attributes?.value}`}
       </text>
@@ -86,7 +96,7 @@ export const ReadingTreeNodeElement: FC<ReadingTreeNodeElementProps> = ({
           strokeWidth: "0",
         }}
         x="-110"
-        y="20"
+        y="30"
       >
         {`start：(${nodeDatum.attributes?.startLine},${nodeDatum.attributes?.startColumn})`}
       </text>
@@ -96,7 +106,7 @@ export const ReadingTreeNodeElement: FC<ReadingTreeNodeElementProps> = ({
           strokeWidth: "0",
         }}
         x="-110"
-        y="40"
+        y="50"
       >
         {`end：(${nodeDatum.attributes?.endLine},${nodeDatum.attributes?.endColumn})`}
       </text>

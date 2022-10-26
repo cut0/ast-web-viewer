@@ -53,6 +53,7 @@ export const convertCustomNodeList = (
           };
         },
       ) {
+        console.log("hey", nodePath);
         const baseNode = nodePath.node;
         const parentId = customNodeList.find((node) => {
           return (
