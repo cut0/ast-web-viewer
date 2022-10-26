@@ -118,3 +118,91 @@ export const convertRawNodeDatum = (nodeList: CustomNode[]) => {
     });
   }
 };
+
+export const getNodeDistance = (
+  customNodeList: CustomNode[],
+  idA: number,
+  idB: number,
+) => {
+  const targetA = customNodeList.find((node) => {
+    return node.id === idA;
+  });
+
+  const targetB = customNodeList.find((node) => {
+    return node.id === idB;
+  });
+
+  if (targetA === undefined || targetB === undefined) {
+    return -1;
+  }
+
+  const targetAToRootDistanceList = [
+    ...Array.from({ length: customNodeList.length }),
+  ].map(() => {
+    return -1;
+  });
+
+  const currentFromA = {
+    pos: targetA.id,
+    distance: 0,
+    parentPos: targetA.parentId,
+  };
+  while (true) {
+    targetAToRootDistanceList[currentFromA.pos] = currentFromA.distance;
+    if (currentFromA.parentPos === undefined) {
+      break;
+    }
+    currentFromA.pos = currentFromA.parentPos;
+    currentFromA.parentPos = customNodeList.find((node) => {
+      return node.id === currentFromA.pos;
+    })?.id;
+    currentFromA.distance += 1;
+  }
+
+  const currentFromB = {
+    pos: targetB.id,
+    distance: 0,
+    parentPos: targetB.parentId,
+  };
+  while (true) {
+    if (
+      currentFromB.parentPos === undefined ||
+      targetAToRootDistanceList[currentFromB.pos] !== -1
+    ) {
+      break;
+    }
+    currentFromB.pos = currentFromB.parentPos;
+    currentFromB.parentPos = customNodeList.find((node) => {
+      return node.id === currentFromB.pos;
+    })?.id;
+    currentFromB.distance += 1;
+  }
+
+  return targetAToRootDistanceList[currentFromB.pos] + currentFromB.distance;
+};
+
+export const getCustomNodeFromPostion = (
+  customNodeList: CustomNode[],
+  postition: {
+    start: {
+      byte: number;
+      line: number;
+      column: number;
+    };
+    end: {
+      byte: number;
+      line: number;
+      column: number;
+    };
+  },
+): CustomNode | undefined => {
+  const customNode = customNodeList.find((node) => {
+    return (
+      node.postition.start.line === postition.start.line &&
+      node.postition.start.column === postition.start.column &&
+      node.postition.end.line === postition.end.line &&
+      node.postition.end.column === postition.end.column
+    );
+  });
+  return customNode;
+};
