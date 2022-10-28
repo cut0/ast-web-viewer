@@ -53,7 +53,6 @@ export const convertCustomNodeList = (
           };
         },
       ) {
-        console.log("hey", nodePath);
         const baseNode = nodePath.node;
         const parentId = customNodeList.find((node) => {
           return (
@@ -185,12 +184,10 @@ export const getCustomNodeFromPostion = (
   customNodeList: CustomNode[],
   postition: {
     start: {
-      byte: number;
       line: number;
       column: number;
     };
     end: {
-      byte: number;
       line: number;
       column: number;
     };

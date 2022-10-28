@@ -51,20 +51,14 @@ main()`;
 type Action =
   | { type: "SETUP_TARGET_CODE"; code: string; nodeList: CustomNode[] }
   | {
-      type: "UPDATE_READ_POINT";
-      position: {
-        start: { line: number; column: number };
-        end: { line: number; column: number };
-      };
+      type: "UPDATE_FOCUS_NODE";
+      customNode: CustomNode;
     };
 
 type State = {
   baseCode: string;
   payload: {
-    position: {
-      start: { line: number; column: number };
-      end: { line: number; column: number };
-    };
+    customNode: CustomNode;
   }[];
 };
 
@@ -84,10 +78,10 @@ export const readingReducer: Reducer<State, Action> = (
         baseCode: action.code,
         nodeList: action.nodeList,
       };
-    case "UPDATE_READ_POINT":
+    case "UPDATE_FOCUS_NODE":
       return {
         ...state,
-        payload: [...state.payload, { position: action.position }],
+        payload: [...state.payload, { customNode: action.customNode }],
       };
   }
 };

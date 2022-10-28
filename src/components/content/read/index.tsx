@@ -1,11 +1,11 @@
-import { useState, FC, useContext, useMemo, useEffect } from "react";
+import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
 import { CustomViewer } from "../../../components/CustomViewer";
 import {
   convertCustomNodeList,
   convertRawNodeDatum,
-  CustomNode,
+  getCustomNodeFromPostion,
 } from "../../../features/code/AstUtils";
 import { AuthContext } from "../../../features/auth/AuthProvider";
 import { ReadingContext } from "../../../features/reading/Provider";
@@ -16,18 +16,15 @@ export const ReadPageContent: FC = () => {
   const [authState] = useContext(AuthContext);
   const [readingState, dispatchReading] = useContext(ReadingContext);
 
-  const [nodeList, setNodeList] = useState<CustomNode[] | undefined>(undefined);
-
-  useEffect(() => {
-    const nodeList = convertCustomNodeList(readingState.baseCode);
-    setNodeList(nodeList);
+  const customNodeList = useMemo(() => {
+    return convertCustomNodeList(readingState.baseCode);
   }, [readingState.baseCode]);
 
   const currentFocusNodePosition = useMemo(() => {
     if (readingState.payload.length < 1) {
       return undefined;
     }
-    return readingState.payload.slice(-1)[0].position;
+    return readingState.payload.slice(-1)[0].customNode.postition;
   }, [readingState.payload]);
 
   return (
@@ -49,12 +46,22 @@ export const ReadPageContent: FC = () => {
           /**
            * id 取り出し
            */
-          dispatchReading({ type: "UPDATE_READ_POINT", position });
+          if (customNodeList === undefined) {
+            return;
+          }
+          const customNode = getCustomNodeFromPostion(customNodeList, position);
+          if (customNode === undefined) {
+            return;
+          }
+          dispatchReading({
+            type: "UPDATE_FOCUS_NODE",
+            customNode,
+          });
         }}
       />
-      {nodeList !== undefined && (
+      {customNodeList !== undefined && (
         <Tree
-          data={convertRawNodeDatum(nodeList)}
+          data={convertRawNodeDatum(customNodeList)}
           depthFactor={300}
           renderCustomNodeElement={(props) => {
             return (

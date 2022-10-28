@@ -1,11 +1,4 @@
-import {
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FC, useCallback, useContext, useMemo, useRef, useState } from "react";
 import Tree from "react-d3-tree";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +12,6 @@ import {
   convertRawNodeDatum,
 } from "../../../features/code/AstUtils";
 import { ReadingContext } from "../../../features/reading/Provider";
-import { CustomNode } from "../../../features/code/AstUtils";
 import { useInterval } from "../../../features/common/IntervalHooks";
 import {
   PageContainer,
@@ -39,7 +31,10 @@ import { ReadingTreeNodeElement } from "./ReadingTreeNodeElement";
 
 export const ReadAnalyticsPageContent: FC = () => {
   const [readingState] = useContext(ReadingContext);
-  const [nodeList, setNodeList] = useState<CustomNode[] | undefined>(undefined);
+
+  const customNodeList = useMemo(() => {
+    return convertCustomNodeList(readingState.baseCode);
+  }, [readingState.baseCode]);
 
   const [isPlay, setIsPlay] = useState(false);
   const [currentFocusNodePosition, setCurrentFocusNodePosition] = useState<
@@ -69,18 +64,13 @@ export const ReadAnalyticsPageContent: FC = () => {
     errorMessage: "アップロード失敗",
   });
 
-  useEffect(() => {
-    const nodeList = convertCustomNodeList(readingState.baseCode);
-    setNodeList(nodeList);
-  }, [readingState.baseCode]);
-
   const switchPlaying = useCallback(() => {
     setIsPlay((prev) => {
       return !prev;
     });
   }, []);
 
-  let arrayPosRef = useRef(0);
+  const arrayPosRef = useRef(0);
   useInterval(() => {
     if (
       arrayPosRef.current === readingState.payload.length - 1 ||
@@ -93,8 +83,9 @@ export const ReadAnalyticsPageContent: FC = () => {
     if (!isPlay) {
       return;
     }
-    const target = readingState.payload[arrayPosRef.current].position;
-    setCurrentFocusNodePosition(target);
+    const currentPosition =
+      readingState.payload[arrayPosRef.current].customNode.postition;
+    setCurrentFocusNodePosition(currentPosition);
     arrayPosRef.current += 1;
   });
 
@@ -152,9 +143,9 @@ export const ReadAnalyticsPageContent: FC = () => {
           )}
         </header>
         <div className={TreeViewerContainer}>
-          {nodeList !== undefined && (
+          {customNodeList !== undefined && (
             <Tree
-              data={convertRawNodeDatum(nodeList)}
+              data={convertRawNodeDatum(customNodeList)}
               depthFactor={300}
               renderCustomNodeElement={(props) => {
                 return (
