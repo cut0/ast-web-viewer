@@ -1,14 +1,19 @@
-import { useState, FC, useContext } from "react";
+import { FC, useContext } from "react";
 import Link from "next/link";
+import Tree from "react-d3-tree";
 import { CustomEditor } from "../../../components/CustomEditor";
-import { CustomViewer } from "../../../components/CustomViewer";
-import { convertCustomNodeList } from "../../../features/code/AstUtils";
+import {
+  convertCustomNodeList,
+  convertRawNodeDatum,
+} from "../../../features/code/AstUtils";
 import { AuthContext } from "../../../features/auth/AuthProvider";
+import { WritingContext } from "../../../features/write/Provider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
+import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
 export const WritePageContent: FC = () => {
-  const [astString, setAstString] = useState("");
   const [authState] = useContext(AuthContext);
+  const [writingState, dispatchWriting] = useContext(WritingContext);
 
   return (
     <div className={MultiEditorContainer}>
@@ -25,15 +30,27 @@ export const WritePageContent: FC = () => {
       </div>
       <CustomEditor
         onCodeChange={(code) => {
-          const ast = convertCustomNodeList(code);
-          if (ast === undefined) {
-            setAstString("");
+          const customNodeList = convertCustomNodeList(code);
+          if (customNodeList === undefined) {
             return;
           }
-          setAstString(JSON.stringify(ast, null, 2));
+          dispatchWriting({ type: "UPDATE_AST", customNodeList });
+          console.log(writingState);
         }}
       />
-      <CustomViewer code={astString} />
+      {writingState.payload.length > 0 && (
+        <Tree
+          data={convertRawNodeDatum(
+            writingState.payload.slice(-1)[0].customNodeList,
+          )}
+          depthFactor={300}
+          renderCustomNodeElement={(props) => {
+            return <WritingTreeNodeElement {...props} />;
+          }}
+          separation={{ siblings: 2, nonSiblings: 3 }}
+          collapsible
+        />
+      )}
     </div>
   );
 };

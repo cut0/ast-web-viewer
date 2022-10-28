@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { WriteCodeContextContainer } from "../features/write/CodeProvider";
+import { WritingContextContainer } from "../features/write/Provider";
 import { ReadingContextContainer } from "../features/reading/Provider";
 import { ExperimentContextContainer } from "../features/experiment/Provider";
 
@@ -10,13 +10,13 @@ import { AuthContextContainer } from "../features/auth/AuthProvider";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextContainer>
-      <WriteCodeContextContainer>
+      <WritingContextContainer>
         <ReadingContextContainer>
           <ExperimentContextContainer>
             <Component {...pageProps} />
           </ExperimentContextContainer>
         </ReadingContextContainer>
-      </WriteCodeContextContainer>
+      </WritingContextContainer>
     </AuthContextContainer>
   );
 }
