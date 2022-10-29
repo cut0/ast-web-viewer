@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
 import { WritingContextContainer } from "../features/write/Provider";
 import { ReadingContextContainer } from "../features/reading/Provider";
-import { ExperimentContextContainer } from "../features/experiment/Provider";
 
 import "modern-css-reset";
 import "../features/styles/global.css";
@@ -12,9 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthContextContainer>
       <WritingContextContainer>
         <ReadingContextContainer>
-          <ExperimentContextContainer>
-            <Component {...pageProps} />
-          </ExperimentContextContainer>
+          <Component {...pageProps} />
         </ReadingContextContainer>
       </WritingContextContainer>
     </AuthContextContainer>

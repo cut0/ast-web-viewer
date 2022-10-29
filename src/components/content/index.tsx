@@ -56,15 +56,6 @@ export const HomePageContent: FC = () => {
             <span className={CardNav}>Writingページへ</span>
           </a>
         </Link>
-        <Link href="/experiment" passHref>
-          <a className={CardContainer}>
-            <h2 className={CardTitle}>Experiment</h2>
-            <section className={CardSummary}>
-              ASTのライブ変換を確認するページです
-            </section>
-            <span className={CardNav}>Experimentページへ</span>
-          </a>
-        </Link>
       </div>
     </div>
   );

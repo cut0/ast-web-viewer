@@ -9,7 +9,7 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { AuthContext } from "../auth/AuthProvider";
 import { handleApiError } from "../common/ApiUtils";
 
-type BucketType = "reading" | "writing" | "experiment";
+type BucketType = "reading" | "writing";
 
 const uploadJson = async (
   content: string,
