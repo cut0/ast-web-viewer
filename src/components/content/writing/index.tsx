@@ -1,17 +1,17 @@
 import { FC, useContext } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
-import { CustomEditor } from "../../../components/CustomEditor";
+import { CustomEditor } from "../../CustomEditor";
 import {
   convertCustomNodeList,
   convertRawNodeDatum,
 } from "../../../features/code/AstUtils";
 import { AuthContext } from "../../../features/auth/AuthProvider";
-import { WritingContext } from "../../../features/write/Provider";
+import { WritingContext } from "../../../features/writing/Provider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
-export const WritePageContent: FC = () => {
+export const WritingPageContent: FC = () => {
   const [authState] = useContext(AuthContext);
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
@@ -19,7 +19,7 @@ export const WritePageContent: FC = () => {
     <div className={MultiEditorContainer}>
       <div className={LinkContainer}>
         {authState.status === "login" ? (
-          <Link href="/write/analytics" passHref>
+          <Link href="/writing/analytics" passHref>
             <a className={LinkLabel}>分析ページへ</a>
           </Link>
         ) : (

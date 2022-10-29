@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { WritingContextContainer } from "../features/write/Provider";
+import { WritingContextContainer } from "../features/writing/Provider";
 import { ReadingContextContainer } from "../features/reading/Provider";
 
 import "modern-css-reset";

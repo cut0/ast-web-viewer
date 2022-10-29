@@ -9,7 +9,7 @@ import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks"
 import { useHandleApi } from "../../../features/common/ApiHooks";
 import { convertRawNodeDatum } from "../../../features/code/AstUtils";
 import { useInterval } from "../../../features/common/IntervalHooks";
-import { WritingContext } from "../../../features/write/Provider";
+import { WritingContext } from "../../../features/writing/Provider";
 import {
   PageContainer,
   TreeViewerContainer,
@@ -26,7 +26,7 @@ import {
 } from "./analytics.css";
 import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
-export const WriteAnalyticsPageContent: FC = () => {
+export const WritingAnalyticsPageContent: FC = () => {
   const [writingState] = useContext(WritingContext);
   const [isPlay, setIsPlay] = useState(false);
 

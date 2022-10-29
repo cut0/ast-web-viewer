@@ -29,7 +29,7 @@ import {
 } from "./analytics.css";
 import { ReadingTreeNodeElement } from "./ReadingTreeNodeElement";
 
-export const ReadAnalyticsPageContent: FC = () => {
+export const ReadingAnalyticsPageContent: FC = () => {
   const [readingState] = useContext(ReadingContext);
 
   const customNodeList = useMemo(() => {

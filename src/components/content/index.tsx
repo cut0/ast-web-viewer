@@ -42,14 +42,14 @@ export const HomePageContent: FC = () => {
         )}
       </header>
       <div className={CardListContainer}>
-        <Link href="/read" passHref>
+        <Link href="/reading" passHref>
           <a className={CardContainer}>
             <h2 className={CardTitle}>Reading</h2>
             <section className={CardSummary}> コードを読むページです</section>
             <span className={CardNav}>Readingページへ</span>
           </a>
         </Link>
-        <Link href="/write" passHref>
+        <Link href="/writing" passHref>
           <a className={CardContainer}>
             <h2 className={CardTitle}>Writing</h2>
             <section className={CardSummary}>コードを書くページです</section>

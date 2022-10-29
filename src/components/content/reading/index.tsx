@@ -1,7 +1,7 @@
 import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
-import { CustomViewer } from "../../../components/CustomViewer";
+import { CustomViewer } from "../../CustomViewer";
 import {
   convertCustomNodeList,
   convertRawNodeDatum,
@@ -12,7 +12,7 @@ import { ReadingContext } from "../../../features/reading/Provider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 import { ReadingTreeNodeElement } from "./ReadingTreeNodeElement";
 
-export const ReadPageContent: FC = () => {
+export const ReadingPageContent: FC = () => {
   const [authState] = useContext(AuthContext);
   const [readingState, dispatchReading] = useContext(ReadingContext);
 
@@ -31,7 +31,7 @@ export const ReadPageContent: FC = () => {
     <div className={MultiEditorContainer}>
       <div className={LinkContainer}>
         {authState.status === "login" ? (
-          <Link href="/read/analytics" passHref>
+          <Link href="/reading/analytics" passHref>
             <a className={LinkLabel}>分析ページへ</a>
           </Link>
         ) : (
