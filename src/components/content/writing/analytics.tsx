@@ -69,48 +69,44 @@ export const WritingAnalyticsPageContent: FC = () => {
     <>
       <div className={PageContainer}>
         <header className={Header}>
+          <div>
+            <button
+              className={isPlay ? PlayingButton : StoppingButton}
+              type="button"
+              onClick={switchPlaying}
+            >
+              {isPlay ? "再生中" : "停止中"}
+            </button>
+          </div>
           {authState.status === "login" && (
-            <>
-              <div>
-                <button
-                  className={isPlay ? PlayingButton : StoppingButton}
-                  type="button"
-                  onClick={switchPlaying}
-                >
-                  {isPlay ? "再生中" : "停止中"}
-                </button>
-              </div>
-              <div className={UploadContainer}>
-                <button
-                  className={ProfileImageContainer}
-                  type="button"
-                  onClick={() => {
-                    setShowLogOutConfirmModal(true);
-                  }}
-                >
-                  <Image
-                    alt="profile-icon"
-                    className={ProfileImage}
-                    layout="fill"
-                    src={
-                      authState.payload.photoURL?.replace(
-                        "=s96-c",
-                        "=s200-c",
-                      ) ?? ""
-                    }
-                  ></Image>
-                </button>
-                <button
-                  className={SubmitCodeButton}
-                  type="button"
-                  onClick={() => {
-                    setShowSubmitConfirmModal(true);
-                  }}
-                >
-                  登録
-                </button>
-              </div>
-            </>
+            <div className={UploadContainer}>
+              <button
+                className={ProfileImageContainer}
+                type="button"
+                onClick={() => {
+                  setShowLogOutConfirmModal(true);
+                }}
+              >
+                <Image
+                  alt="profile-icon"
+                  className={ProfileImage}
+                  layout="fill"
+                  src={
+                    authState.payload.photoURL?.replace("=s96-c", "=s200-c") ??
+                    ""
+                  }
+                ></Image>
+              </button>
+              <button
+                className={SubmitCodeButton}
+                type="button"
+                onClick={() => {
+                  setShowSubmitConfirmModal(true);
+                }}
+              >
+                登録
+              </button>
+            </div>
           )}
           {authState.status !== "login" && (
             <Link href="/" passHref>

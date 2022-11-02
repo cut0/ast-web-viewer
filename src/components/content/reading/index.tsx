@@ -7,13 +7,11 @@ import {
   convertRawNodeDatum,
   getCustomNodeFromPostion,
 } from "../../../features/code/AstUtils";
-import { AuthContext } from "../../../features/auth/AuthProvider";
 import { ReadingContext } from "../../../features/reading/Provider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 import { ReadingTreeNodeElement } from "./ReadingTreeNodeElement";
 
 export const ReadingPageContent: FC = () => {
-  const [authState] = useContext(AuthContext);
   const [readingState, dispatchReading] = useContext(ReadingContext);
 
   const customNodeList = useMemo(() => {
@@ -30,15 +28,9 @@ export const ReadingPageContent: FC = () => {
   return (
     <div className={MultiEditorContainer}>
       <div className={LinkContainer}>
-        {authState.status === "login" ? (
-          <Link href="/reading/analytics" passHref>
-            <a className={LinkLabel}>分析ページへ</a>
-          </Link>
-        ) : (
-          <Link href="/" passHref>
-            <a className={LinkLabel}>ログインページへ</a>
-          </Link>
-        )}
+        <Link href="/reading/analytics" passHref>
+          <a className={LinkLabel}>分析ページへ</a>
+        </Link>
       </div>
       <CustomViewer
         code={readingState.baseCode}

@@ -6,27 +6,19 @@ import {
   convertCustomNodeList,
   convertRawNodeDatum,
 } from "../../../features/code/AstUtils";
-import { AuthContext } from "../../../features/auth/AuthProvider";
 import { WritingContext } from "../../../features/writing/Provider";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
 export const WritingPageContent: FC = () => {
-  const [authState] = useContext(AuthContext);
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
   return (
     <div className={MultiEditorContainer}>
       <div className={LinkContainer}>
-        {authState.status === "login" ? (
-          <Link href="/writing/analytics" passHref>
-            <a className={LinkLabel}>分析ページへ</a>
-          </Link>
-        ) : (
-          <Link href="/" passHref>
-            <a className={LinkLabel}>ログインページへ</a>
-          </Link>
-        )}
+        <Link href="/writing/analytics" passHref>
+          <a className={LinkLabel}>分析ページへ</a>
+        </Link>
       </div>
       <CustomEditor
         onCodeChange={(code) => {
