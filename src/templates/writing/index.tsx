@@ -12,7 +12,7 @@ import {
 import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
-import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
+import { MainContainer, Header, LinkLabel } from "./index.css";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
@@ -25,12 +25,12 @@ export const WritingPageContent: FC = () => {
 
   return (
     <>
-      <div className={LinkContainer}>
+      <header className={Header}>
         <Link href="/writing/analytics" passHref>
           <a className={LinkLabel}>分析ページへ</a>
         </Link>
-      </div>
-      <div className={MultiEditorContainer}>
+      </header>
+      <main className={MainContainer}>
         <CustomEditor
           onCodeChange={(code) => {
             const customNodeList = convertCustomNodeList(code);
@@ -51,7 +51,7 @@ export const WritingPageContent: FC = () => {
             collapsible
           />
         )}
-      </div>
+      </main>
       <AstInfoPanel
         averageDepth={fetchAverageDepth(currentCustomNodeList)}
         averageStrahlerNumber={fetchAverageStrahlerNumber(

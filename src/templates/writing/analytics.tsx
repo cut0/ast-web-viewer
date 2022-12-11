@@ -16,13 +16,19 @@ import { AuthContext } from "../../features/auth/AuthProvider";
 import { logOutOfGoogle } from "../../features/auth/AuthUtils";
 import { useUploadAnalytics } from "../../features/code/UploadAnalyticsHooks";
 import { useHandleApi } from "../../features/common/ApiHooks";
-import { convertRawNodeDatum } from "../../features/code/AstUtils";
+import {
+  convertRawNodeDatum,
+  fetchAverageDepth,
+  fetchAverageStrahlerNumber,
+  fetchNodeCount,
+} from "../../features/code/AstUtils";
 import { useInterval } from "../../features/common/IntervalHooks";
 import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
+import { AstInfoGraph } from "../../components/writing/AstInfoGraph";
+import { CustomViewer } from "../../components/writing/CustomViewer";
 import {
-  PageContainer,
-  TreeViewerContainer,
+  MainContainer,
   Header,
   ProfileImage,
   ProfileImageContainer,
@@ -33,15 +39,18 @@ import {
   UploadContainer,
   PlayingButton,
   StoppingButton,
+  InfoContainer,
 } from "./analytics.css";
 
 export const WritingAnalyticsPageContent: FC = () => {
   const [writingState] = useContext(WritingContext);
-  const [isPlay, setIsPlay] = useState(false);
 
   const [authState] = useContext(AuthContext);
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
   const [showLogOutConfirmModal, setShowLogOutConfirmModal] = useState(false);
+
+  const [payloadStep, setPayloadStep] = useState(0);
+  const [isPlay, setIsPlay] = useState(false);
 
   const userIdRef = useRef<HTMLInputElement>(null);
 
@@ -52,12 +61,29 @@ export const WritingAnalyticsPageContent: FC = () => {
     errorMessage: "アップロード失敗",
   });
 
-  const [payloadStep, setPayloadStep] = useState(0);
+  const totalStep = useMemo(() => {
+    return writingState.payload.length;
+  }, [writingState.payload]);
+
+  const currentCustomNodeList = useMemo(() => {
+    return totalStep === 0
+      ? undefined
+      : writingState.payload[payloadStep].customNodeList;
+  }, [totalStep, writingState.payload, payloadStep]);
+
+  const timeSeriesParams = useMemo(() => {
+    return writingState.payload.slice(0, payloadStep).map((el) => {
+      const nodeCount = fetchNodeCount(el.customNodeList);
+      const averageStrahlerNumber = fetchAverageStrahlerNumber(
+        el.customNodeList,
+      );
+      const averageDepth = fetchAverageDepth(el.customNodeList);
+      return { nodeCount, averageStrahlerNumber, averageDepth };
+    });
+  }, [writingState.payload, payloadStep]);
+
   useInterval(() => {
-    if (
-      payloadStep === writingState.payload.length - 1 ||
-      writingState.payload.length === 0
-    ) {
+    if (payloadStep === totalStep - 1 || totalStep === 0) {
       setIsPlay(false);
       return;
     }
@@ -69,89 +95,90 @@ export const WritingAnalyticsPageContent: FC = () => {
 
   const switchPlaying = useCallback(() => {
     setIsPlay((prev) => {
-      if (prev === false && payloadStep === writingState.payload.length - 1) {
+      if (prev === false && payloadStep === totalStep - 1) {
         setPayloadStep(0);
       }
       return !prev;
     });
-  }, [payloadStep, writingState.payload.length]);
+  }, [payloadStep, totalStep]);
 
   const router = useRouter();
   useEffect(() => {
-    if (writingState.payload.length === 0) {
+    if (totalStep === 0) {
       router.push("/writing");
     }
-  }, [writingState.payload, router]);
-
-  const currentCustomNodeList = useMemo(() => {
-    return writingState.payload[payloadStep].customNodeList;
-  }, [writingState.payload, payloadStep]);
+  }, [totalStep, router]);
 
   return (
     <>
-      <div className={PageContainer}>
-        <header className={Header}>
-          <div>
+      <header className={Header}>
+        <div>
+          <button
+            className={isPlay ? PlayingButton : StoppingButton}
+            type="button"
+            onClick={switchPlaying}
+          >
+            {isPlay
+              ? `再生中 ${payloadStep + 1}/${writingState.payload.length}`
+              : `停止中 ${payloadStep + 1}/${writingState.payload.length}`}
+          </button>
+        </div>
+        {authState.status === "login" && (
+          <div className={UploadContainer}>
             <button
-              className={isPlay ? PlayingButton : StoppingButton}
+              className={ProfileImageContainer}
               type="button"
-              onClick={switchPlaying}
+              onClick={() => {
+                setShowLogOutConfirmModal(true);
+              }}
             >
-              {isPlay
-                ? `再生中 ${payloadStep + 1}/${writingState.payload.length}`
-                : `停止中 ${payloadStep + 1}/${writingState.payload.length}`}
+              <Image
+                alt="profile-icon"
+                className={ProfileImage}
+                layout="fill"
+                src={
+                  authState.payload.photoURL?.replace("=s96-c", "=s200-c") ?? ""
+                }
+              ></Image>
+            </button>
+            <button
+              className={SubmitCodeButton}
+              type="button"
+              onClick={() => {
+                setShowSubmitConfirmModal(true);
+              }}
+            >
+              登録
             </button>
           </div>
-          {authState.status === "login" && (
-            <div className={UploadContainer}>
-              <button
-                className={ProfileImageContainer}
-                type="button"
-                onClick={() => {
-                  setShowLogOutConfirmModal(true);
+        )}
+        {authState.status !== "login" && (
+          <Link href="/" passHref>
+            <a className={LinkLabel}> ログインページへ</a>
+          </Link>
+        )}
+      </header>
+      <main className={MainContainer}>
+        {currentCustomNodeList && (
+          <>
+            <CustomViewer code="code" />
+
+            <div className={InfoContainer}>
+              <AstInfoGraph timeSeriesParams={timeSeriesParams} />
+              <Tree
+                data={convertRawNodeDatum(currentCustomNodeList)}
+                depthFactor={300}
+                renderCustomNodeElement={(props) => {
+                  return <WritingTreeNodeElement {...props} />;
                 }}
-              >
-                <Image
-                  alt="profile-icon"
-                  className={ProfileImage}
-                  layout="fill"
-                  src={
-                    authState.payload.photoURL?.replace("=s96-c", "=s200-c") ??
-                    ""
-                  }
-                ></Image>
-              </button>
-              <button
-                className={SubmitCodeButton}
-                type="button"
-                onClick={() => {
-                  setShowSubmitConfirmModal(true);
-                }}
-              >
-                登録
-              </button>
+                separation={{ siblings: 2, nonSiblings: 3 }}
+                collapsible
+              />
             </div>
-          )}
-          {authState.status !== "login" && (
-            <Link href="/" passHref>
-              <a className={LinkLabel}> ログインページへ</a>
-            </Link>
-          )}
-        </header>
-        <div className={TreeViewerContainer}>
-          {writingState.payload.length > 0 && (
-            <Tree
-              data={convertRawNodeDatum(currentCustomNodeList)}
-              depthFactor={300}
-              renderCustomNodeElement={(props) => {
-                return <WritingTreeNodeElement {...props} />;
-              }}
-              separation={{ siblings: 2, nonSiblings: 3 }}
-              collapsible
-            />
-          )}
-        </div>
-      </div>
+          </>
+        )}
+      </main>
+
       <ConfirmModalContainer
         isOpen={showSubmitConfirmModal}
         onClickAccept={() => {
