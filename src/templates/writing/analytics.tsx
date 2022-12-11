@@ -27,6 +27,7 @@ import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoGraph } from "../../components/writing/AstInfoGraph";
 import { CustomViewer } from "../../components/writing/CustomViewer";
+import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
 import {
   MainContainer,
   Header,
@@ -36,10 +37,11 @@ import {
   UserInputContainer,
   UserInputLabel,
   LinkLabel,
-  UploadContainer,
+  HeaderRightContainer,
   PlayingButton,
   StoppingButton,
   InfoContainer,
+  HeaderLeftContainer,
 } from "./analytics.css";
 
 export const WritingAnalyticsPageContent: FC = () => {
@@ -110,7 +112,12 @@ export const WritingAnalyticsPageContent: FC = () => {
   return (
     <>
       <header className={Header}>
-        <div>
+        <div className={HeaderLeftContainer}>
+          <Link href="/writing" passHref>
+            <a>
+              <BackSvgIcon height="32px" title="back" />
+            </a>
+          </Link>
           <button
             className={isPlay ? PlayingButton : StoppingButton}
             type="button"
@@ -122,7 +129,7 @@ export const WritingAnalyticsPageContent: FC = () => {
           </button>
         </div>
         {authState.status === "login" && (
-          <div className={UploadContainer}>
+          <div className={HeaderRightContainer}>
             <button
               className={ProfileImageContainer}
               type="button"

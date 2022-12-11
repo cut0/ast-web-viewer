@@ -3,10 +3,11 @@ import { basic, text } from "../../features/styles/theme";
 
 export const Header = style({
   display: "flex",
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
+  alignItems: "center",
   position: "fixed",
   width: "100%",
-  padding: "16px 8px",
+  padding: "16px",
   backgroundColor: "white",
   zIndex: "1",
 });

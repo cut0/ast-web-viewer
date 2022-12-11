@@ -3,7 +3,7 @@ import { background, basic, color, text } from "../../features/styles/theme";
 
 export const Header = style({
   width: "100%",
-  padding: "16px 8px",
+  padding: "16px",
   display: "flex",
   justifyContent: "space-between",
   position: "fixed",
@@ -11,12 +11,18 @@ export const Header = style({
   zIndex: "1",
 });
 
-export const UploadContainer = style({
+export const HeaderLeftContainer = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+});
+
+export const HeaderRightContainer = style({
   display: "grid",
   gridTemplateColumns: "repeat(2,1fr)",
   alignItems: "center",
   justifyItems: "flex-end",
-  gap: "16px",
+  gap: "8px",
 });
 
 export const ProfileImageContainer = style({

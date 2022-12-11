@@ -12,6 +12,7 @@ import {
 import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
+import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
 import { MainContainer, Header, LinkLabel } from "./index.css";
 
 export const WritingPageContent: FC = () => {
@@ -26,6 +27,11 @@ export const WritingPageContent: FC = () => {
   return (
     <>
       <header className={Header}>
+        <Link href="/" passHref>
+          <a>
+            <BackSvgIcon height={32} title="back" />
+          </a>
+        </Link>
         <Link href="/writing/analytics" passHref>
           <a className={LinkLabel}>分析ページへ</a>
         </Link>
