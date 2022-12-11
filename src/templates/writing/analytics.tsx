@@ -70,7 +70,7 @@ export const WritingAnalyticsPageContent: FC = () => {
   }, [totalStep, writingState.payload, payloadStep]);
 
   const timeSeriesParams = useMemo(() => {
-    return writingState.payload.slice(0, payloadStep).map((el) => {
+    return writingState.payload.map((el) => {
       const nodeCount = fetchNodeCount(el.customNodeList);
       const averageStrahlerNumber = fetchAverageStrahlerNumber(
         el.customNodeList,
@@ -78,7 +78,7 @@ export const WritingAnalyticsPageContent: FC = () => {
       const averageDepth = fetchAverageDepth(el.customNodeList);
       return { nodeCount, averageStrahlerNumber, averageDepth };
     });
-  }, [writingState.payload, payloadStep]);
+  }, [writingState.payload]);
 
   useInterval(() => {
     if (payloadStep === totalStep - 1 || totalStep === 0) {
@@ -161,7 +161,15 @@ export const WritingAnalyticsPageContent: FC = () => {
           <>
             <CustomViewer code={currentPayload.rawProgram} />
             <div className={InfoContainer}>
-              <AstInfoGraph timeSeriesParams={timeSeriesParams} />
+              <AstInfoGraph
+                timeSeriesParams={timeSeriesParams}
+                onClickGraph={(step) => {
+                  if (isPlay) {
+                    return;
+                  }
+                  setPayloadStep(step);
+                }}
+              />
               <Tree
                 data={convertRawNodeDatum(currentPayload.customNodeList)}
                 depthFactor={300}

@@ -15,12 +15,24 @@ type AstInfoGraphProps = {
     averageStrahlerNumber: number;
     averageDepth: number;
   }[];
+  onClickGraph: (step: number) => void;
 };
 
-export const AstInfoGraph: FC<AstInfoGraphProps> = ({ timeSeriesParams }) => {
+export const AstInfoGraph: FC<AstInfoGraphProps> = ({
+  timeSeriesParams,
+  onClickGraph,
+}) => {
   return (
     <ResponsiveContainer>
-      <LineChart data={timeSeriesParams}>
+      <LineChart
+        data={timeSeriesParams}
+        onClick={(e) => {
+          if (e.activeTooltipIndex === undefined) {
+            return;
+          }
+          onClickGraph(e.activeTooltipIndex);
+        }}
+      >
         <Line
           dataKey="nodeCount"
           isAnimationActive={false}
@@ -40,7 +52,11 @@ export const AstInfoGraph: FC<AstInfoGraphProps> = ({ timeSeriesParams }) => {
           type="monotone"
         />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis />
+        <XAxis
+          onClick={() => {
+            console.log("hello");
+          }}
+        />
         <YAxis />
         <Tooltip />
       </LineChart>
