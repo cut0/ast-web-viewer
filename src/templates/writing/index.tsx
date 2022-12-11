@@ -17,10 +17,10 @@ import { MainContainer, Header, LinkLabel } from "./index.css";
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
-  const currentCustomNodeList = useMemo(() => {
+  const currentPayload = useMemo(() => {
     return writingState.payload.length > 0
-      ? writingState.payload.slice(-1)[0].customNodeList
-      : [];
+      ? writingState.payload.slice(-1)[0]
+      : undefined;
   }, [writingState]);
 
   return (
@@ -32,6 +32,7 @@ export const WritingPageContent: FC = () => {
       </header>
       <main className={MainContainer}>
         <CustomEditor
+          code={currentPayload ? currentPayload.rawProgram : undefined}
           onCodeChange={(code) => {
             const customNodeList = convertCustomNodeList(code);
             if (customNodeList === undefined) {
@@ -44,9 +45,9 @@ export const WritingPageContent: FC = () => {
             });
           }}
         />
-        {writingState.payload.length > 0 && (
+        {currentPayload && (
           <Tree
-            data={convertRawNodeDatum(currentCustomNodeList)}
+            data={convertRawNodeDatum(currentPayload.customNodeList)}
             depthFactor={300}
             renderCustomNodeElement={(props) => {
               return <WritingTreeNodeElement {...props} />;
@@ -56,13 +57,15 @@ export const WritingPageContent: FC = () => {
           />
         )}
       </main>
-      <AstInfoPanel
-        averageDepth={fetchAverageDepth(currentCustomNodeList)}
-        averageStrahlerNumber={fetchAverageStrahlerNumber(
-          currentCustomNodeList,
-        )}
-        nodeCount={fetchNodeCount(currentCustomNodeList)}
-      />
+      {currentPayload && (
+        <AstInfoPanel
+          averageDepth={fetchAverageDepth(currentPayload.customNodeList)}
+          averageStrahlerNumber={fetchAverageStrahlerNumber(
+            currentPayload.customNodeList,
+          )}
+          nodeCount={fetchNodeCount(currentPayload.customNodeList)}
+        />
+      )}
     </>
   );
 };
