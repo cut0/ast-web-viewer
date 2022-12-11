@@ -15,13 +15,14 @@ export const UploadContainer = style({
   display: "grid",
   gridTemplateColumns: "repeat(2,1fr)",
   alignItems: "center",
+  justifyItems: "flex-end",
   gap: "16px",
 });
 
 export const ProfileImageContainer = style({
   backgroundColor: background.loading,
   position: "relative",
-  height: "100%",
+  height: "40px",
   borderRadius: "50%",
   aspectRatio: "1 / 1",
   border: "none",

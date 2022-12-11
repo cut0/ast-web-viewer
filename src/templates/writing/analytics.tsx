@@ -44,6 +44,7 @@ import {
 
 export const WritingAnalyticsPageContent: FC = () => {
   const [writingState] = useContext(WritingContext);
+  console.log(JSON.stringify(writingState));
 
   const [authState] = useContext(AuthContext);
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);

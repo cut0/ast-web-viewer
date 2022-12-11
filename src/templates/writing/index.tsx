@@ -64,6 +64,7 @@ export const WritingPageContent: FC = () => {
             currentPayload.customNodeList,
           )}
           nodeCount={fetchNodeCount(currentPayload.customNodeList)}
+          stepCount={writingState.payload.length}
         />
       )}
     </>
