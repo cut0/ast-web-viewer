@@ -65,10 +65,8 @@ export const WritingAnalyticsPageContent: FC = () => {
     return writingState.payload.length;
   }, [writingState.payload]);
 
-  const currentCustomNodeList = useMemo(() => {
-    return totalStep === 0
-      ? undefined
-      : writingState.payload[payloadStep].customNodeList;
+  const currentPayload = useMemo(() => {
+    return totalStep === 0 ? undefined : writingState.payload[payloadStep];
   }, [totalStep, writingState.payload, payloadStep]);
 
   const timeSeriesParams = useMemo(() => {
@@ -159,14 +157,13 @@ export const WritingAnalyticsPageContent: FC = () => {
         )}
       </header>
       <main className={MainContainer}>
-        {currentCustomNodeList && (
+        {currentPayload && (
           <>
-            <CustomViewer code="code" />
-
+            <CustomViewer code={currentPayload.rawProgram} />
             <div className={InfoContainer}>
               <AstInfoGraph timeSeriesParams={timeSeriesParams} />
               <Tree
-                data={convertRawNodeDatum(currentCustomNodeList)}
+                data={convertRawNodeDatum(currentPayload.customNodeList)}
                 depthFactor={300}
                 renderCustomNodeElement={(props) => {
                   return <WritingTreeNodeElement {...props} />;

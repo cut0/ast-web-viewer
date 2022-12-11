@@ -37,7 +37,11 @@ export const WritingPageContent: FC = () => {
             if (customNodeList === undefined) {
               return;
             }
-            dispatchWriting({ type: "UPDATE_AST", customNodeList });
+            dispatchWriting({
+              type: "UPDATE_AST",
+              customNodeList,
+              rawProgram: code,
+            });
           }}
         />
         {writingState.payload.length > 0 && (

@@ -20,6 +20,7 @@ export const ErrorToast = style({
   gap: "16px",
   animationDirection: "alternate",
   animation: `${DropDownAnimation} ease 0.3s 1 normal`,
+  zIndex: "100",
 });
 
 export const SuccessToast = style({
@@ -39,6 +40,7 @@ export const SuccessToast = style({
   gap: "16px",
   animationDirection: "alternate",
   animation: `${DropDownAnimation} ease 0.3s 1 normal`,
+  zIndex: "100",
 });
 
 export const Label = style({
