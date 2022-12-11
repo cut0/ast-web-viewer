@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { background, basic, color, text } from "../../../features/styles/theme";
+import { background, basic, color, text } from "../../features/styles/theme";
 
 export const PageContainer = style({
   width: "100%",

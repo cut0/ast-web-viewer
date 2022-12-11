@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { WritingPageContent } from "../../components/content/writing";
+import { WritingPageContent } from "../../templates/writing";
 
 const Writing: NextPage = () => {
   return (

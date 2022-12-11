@@ -1,14 +1,14 @@
 import { FC, useContext } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
-import { CustomEditor } from "../../CustomEditor";
+import { CustomEditor } from "../../components/writing/CustomEditor";
 import {
   convertCustomNodeList,
   convertRawNodeDatum,
-} from "../../../features/code/AstUtils";
-import { WritingContext } from "../../../features/writing/Provider";
+} from "../../features/code/AstUtils";
+import { WritingContext } from "../../features/writing/Provider";
+import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
-import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);

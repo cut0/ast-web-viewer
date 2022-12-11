@@ -1,8 +1,8 @@
 import { FC, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AuthContext } from "../../features/auth/AuthProvider";
-import { logInWithGoogle } from "../../features/auth/AuthUtils";
+import { AuthContext } from "../features/auth/AuthProvider";
+import { logInWithGoogle } from "../features/auth/AuthUtils";
 import {
   PageContainer,
   Header,
@@ -42,13 +42,6 @@ export const HomePageContent: FC = () => {
         )}
       </header>
       <div className={CardListContainer}>
-        {/* <Link href="/reading" passHref>
-          <a className={CardContainer}>
-            <h2 className={CardTitle}>Reading</h2>
-            <section className={CardSummary}> コードを読むページです</section>
-            <span className={CardNav}>Readingページへ</span>
-          </a>
-        </Link> */}
         <Link href="/writing" passHref>
           <a className={CardContainer}>
             <h2 className={CardTitle}>Writing</h2>

@@ -2,14 +2,15 @@ import { FC, useCallback, useContext, useRef, useState } from "react";
 import Tree from "react-d3-tree";
 import Image from "next/image";
 import Link from "next/link";
-import { ConfirmModalContainer } from "../../common/ConfirmModalContainer";
-import { AuthContext } from "../../../features/auth/AuthProvider";
-import { logOutOfGoogle } from "../../../features/auth/AuthUtils";
-import { useUploadAnalytics } from "../../../features/code/UploadAnalyticsHooks";
-import { useHandleApi } from "../../../features/common/ApiHooks";
-import { convertRawNodeDatum } from "../../../features/code/AstUtils";
-import { useInterval } from "../../../features/common/IntervalHooks";
-import { WritingContext } from "../../../features/writing/Provider";
+import { ConfirmModalContainer } from "../../components/common/ConfirmModalContainer";
+import { AuthContext } from "../../features/auth/AuthProvider";
+import { logOutOfGoogle } from "../../features/auth/AuthUtils";
+import { useUploadAnalytics } from "../../features/code/UploadAnalyticsHooks";
+import { useHandleApi } from "../../features/common/ApiHooks";
+import { convertRawNodeDatum } from "../../features/code/AstUtils";
+import { useInterval } from "../../features/common/IntervalHooks";
+import { WritingContext } from "../../features/writing/Provider";
+import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import {
   PageContainer,
   TreeViewerContainer,
@@ -24,7 +25,6 @@ import {
   PlayingButton,
   StoppingButton,
 } from "./analytics.css";
-import { WritingTreeNodeElement } from "./WritingTreeNodeElement";
 
 export const WritingAnalyticsPageContent: FC = () => {
   const [writingState] = useContext(WritingContext);
