@@ -1,17 +1,27 @@
-import { FC, useContext } from "react";
+import { FC, useCallback, useContext, useMemo } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
 import { CustomEditor } from "../../components/writing/CustomEditor";
 import {
   convertCustomNodeList,
   convertRawNodeDatum,
+  fetchAverageDepth,
+  fetchAverageStrahlerNumber,
+  fetchNodeCount,
 } from "../../features/code/AstUtils";
 import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
+import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
 import { MultiEditorContainer, LinkContainer, LinkLabel } from "./index.css";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
+
+  const currentCustomNodeList = useMemo(() => {
+    return writingState.payload.length > 0
+      ? writingState.payload.slice(-1)[0].customNodeList
+      : [];
+  }, [writingState]);
 
   return (
     <>
@@ -32,9 +42,7 @@ export const WritingPageContent: FC = () => {
         />
         {writingState.payload.length > 0 && (
           <Tree
-            data={convertRawNodeDatum(
-              writingState.payload.slice(-1)[0].customNodeList,
-            )}
+            data={convertRawNodeDatum(currentCustomNodeList)}
             depthFactor={300}
             renderCustomNodeElement={(props) => {
               return <WritingTreeNodeElement {...props} />;
@@ -44,6 +52,13 @@ export const WritingPageContent: FC = () => {
           />
         )}
       </div>
+      <AstInfoPanel
+        averageDepth={fetchAverageDepth(currentCustomNodeList)}
+        averageStrahlerNumber={fetchAverageStrahlerNumber(
+          currentCustomNodeList,
+        )}
+        nodeCount={fetchNodeCount(currentCustomNodeList)}
+      />
     </>
   );
 };

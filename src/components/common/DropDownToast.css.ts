@@ -5,7 +5,7 @@ export const DropDownAnimation = keyframes({});
 
 export const ErrorToast = style({
   backgroundColor: basic.error,
-  boxShadow: "0px 4px 6px　#d0080e",
+  boxShadow: "0px 4px 6px #d0080e",
   color: text.highLight,
   borderRadius: "8px",
   position: "fixed",

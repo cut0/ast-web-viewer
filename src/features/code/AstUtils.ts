@@ -210,3 +210,23 @@ export const getCustomNodeFromPostion = (
   });
   return customNode;
 };
+
+export const fetchNodeCount = (customNodeList: CustomNode[]) => {
+  return customNodeList.length;
+};
+
+export const fetchAverageStrahlerNumber = (customNodeList: CustomNode[]) => {
+  let total = 0;
+  customNodeList.forEach((customNode) => {
+    total += customNode.strahlerNumber ?? 0;
+  });
+  return total / fetchNodeCount(customNodeList);
+};
+
+export const fetchAverageDepth = (customNodeList: CustomNode[]) => {
+  let total = 0;
+  customNodeList.forEach((customNode) => {
+    total += customNode.depth;
+  });
+  return total / fetchNodeCount(customNodeList);
+};
