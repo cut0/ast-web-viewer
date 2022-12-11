@@ -1,18 +1,12 @@
 import { style } from "@vanilla-extract/css";
 import { basic, text } from "../../../features/styles/theme";
 
-export const MultiEditorContainer = style({
-  padding: "8px",
-  display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gridTemplateRows: "auto 1fr",
-});
-
 export const LinkContainer = style({
-  gridColumn: "1 / -1",
   display: "flex",
   justifyContent: "flex-end",
-  padding: "0 0 8px 0",
+  position: "fixed",
+  width: "100%",
+  padding: "16px 8px",
 });
 
 export const LinkLabel = style({
@@ -22,4 +16,10 @@ export const LinkLabel = style({
   borderRadius: "16px",
   padding: "8px 16px",
   cursor: "pointer",
+});
+
+export const MultiEditorContainer = style({
+  paddingTop: "72px",
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
 });
