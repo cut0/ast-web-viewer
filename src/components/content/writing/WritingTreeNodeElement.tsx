@@ -15,7 +15,7 @@ export const WritingTreeNodeElement: FC<WritingTreeNodeElementProps> = ({
         ry="5"
         style={{
           width: "250",
-          height: "120",
+          height: "140",
           fill: "white",
         }}
         x="-125"
@@ -40,7 +40,7 @@ export const WritingTreeNodeElement: FC<WritingTreeNodeElementProps> = ({
         x="-110"
         y="-10"
       >
-        {`id：${nodeDatum.attributes?.id}`}
+        {`depth：${nodeDatum.attributes?.depth}`}
       </text>
       <text
         style={{
@@ -50,7 +50,7 @@ export const WritingTreeNodeElement: FC<WritingTreeNodeElementProps> = ({
         x="-110"
         y="10"
       >
-        {`value：${nodeDatum.attributes?.value}`}
+        {`strahlerNumber：${nodeDatum.attributes?.strahlerNumber}`}
       </text>
       <text
         style={{
@@ -60,7 +60,7 @@ export const WritingTreeNodeElement: FC<WritingTreeNodeElementProps> = ({
         x="-110"
         y="30"
       >
-        {`start：(${nodeDatum.attributes?.startLine},${nodeDatum.attributes?.startColumn})`}
+        {`value：${nodeDatum.attributes?.value}`}
       </text>
       <text
         style={{
@@ -69,6 +69,16 @@ export const WritingTreeNodeElement: FC<WritingTreeNodeElementProps> = ({
         }}
         x="-110"
         y="50"
+      >
+        {`start：(${nodeDatum.attributes?.startLine},${nodeDatum.attributes?.startColumn})`}
+      </text>
+      <text
+        style={{
+          fill: "black",
+          strokeWidth: "0",
+        }}
+        x="-110"
+        y="70"
       >
         {`end：(${nodeDatum.attributes?.endLine},${nodeDatum.attributes?.endColumn})`}
       </text>

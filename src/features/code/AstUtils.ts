@@ -33,7 +33,65 @@ export type CustomNode = {
       column: number;
     };
   };
+  depth: number;
   specificValue?: string;
+  childrenIds: number[];
+  strahlerNumber?: number;
+};
+
+const extendStrahlerNumber = (customNodeList: CustomNode[]) => {
+  const stack = customNodeList.filter((node) => {
+    return node.childrenIds.length === 0;
+  });
+
+  stack.forEach((node) => {
+    customNodeList[node.id].strahlerNumber = 1;
+  });
+
+  while (true) {
+    if (stack.length === 0) {
+      break;
+    }
+    const targetNode = stack.shift();
+    if (targetNode === undefined) {
+      break;
+    }
+
+    const parentNode = customNodeList.find((node) => {
+      return node.id === targetNode.parentId;
+    });
+    if (parentNode === undefined) {
+      break;
+    }
+
+    const brotherNodeStrahlerNumberList = customNodeList
+      .filter((node) => {
+        return parentNode.childrenIds.includes(node.id);
+      })
+      .map((node) => {
+        return node.strahlerNumber;
+      });
+
+    if (!brotherNodeStrahlerNumberList.includes(undefined)) {
+      const maxStrahlerNumber = Math.max(
+        ...(brotherNodeStrahlerNumberList as number[]),
+      );
+      if (
+        brotherNodeStrahlerNumberList.filter((strahlerNumber) => {
+          return strahlerNumber === maxStrahlerNumber;
+        }).length === 1
+      ) {
+        parentNode.strahlerNumber = maxStrahlerNumber;
+      } else {
+        parentNode.strahlerNumber = maxStrahlerNumber + 1;
+      }
+      customNodeList[parentNode.id] = parentNode;
+      stack.push(parentNode);
+    } else {
+      stack.push(targetNode);
+    }
+  }
+  return customNodeList;
 };
 
 export const convertCustomNodeList = (
@@ -54,16 +112,22 @@ export const convertCustomNodeList = (
         },
       ) {
         const baseNode = nodePath.node;
-        const parentId = customNodeList.find((node) => {
+        const id = customNodeList.length;
+        const parentNode = customNodeList.find((node) => {
           return (
             nodePath.parent.start === node.postition.start.byte &&
             nodePath.parent.end === node.postition.end.byte
           );
-        })?.id;
+        });
+
+        if (parentNode) {
+          parentNode.childrenIds.push(id);
+          customNodeList[parentNode.id] = parentNode;
+        }
 
         const nodeElement: CustomNode = {
-          id: customNodeList.length,
-          parentId,
+          id,
+          parentId: parentNode?.id,
           type: baseNode.type,
           postition: {
             start: { ...baseNode.loc.start, byte: baseNode.start },
@@ -73,12 +137,15 @@ export const convertCustomNodeList = (
             baseNode.value !== undefined
               ? String(baseNode.value)
               : baseNode.name ?? baseNode.operator ?? undefined,
+          childrenIds: [],
+          strahlerNumber: undefined,
+          depth: parentNode ? parentNode.depth + 1 : 1,
         };
         customNodeList.push(nodeElement);
       },
     });
 
-    return customNodeList;
+    return extendStrahlerNumber(customNodeList);
   } catch (e) {
     console.log(e);
     console.info("パース失敗");
@@ -93,6 +160,8 @@ export const convertRawNodeDatum = (nodeList: CustomNode[]) => {
       attributes: {
         id: node.id,
         parentId: node.parentId ?? "",
+        strahlerNumber: node.strahlerNumber ?? "",
+        depth: node.depth ?? "",
         startLine: String(node.postition.start.line),
         startColumn: String(node.postition.start.column),
         endLine: String(node.postition.end.line),
@@ -108,76 +177,14 @@ export const convertRawNodeDatum = (nodeList: CustomNode[]) => {
     if (targetNode === undefined || targetNode.attributes.parentId === "") {
       return targetNode;
     }
-    baseNodeList.map((node) => {
-      if (node.attributes.id !== targetNode.attributes.parentId) {
-        return node;
+    baseNodeList.map((parentNode) => {
+      if (parentNode.attributes.id !== targetNode.attributes.parentId) {
+        return parentNode;
       }
-      node.children.push(targetNode);
-      return node;
+      parentNode.children.push(targetNode);
+      return parentNode;
     });
   }
-};
-
-export const getNodeDistance = (
-  customNodeList: CustomNode[],
-  idA: number,
-  idB: number,
-) => {
-  const targetA = customNodeList.find((node) => {
-    return node.id === idA;
-  });
-
-  const targetB = customNodeList.find((node) => {
-    return node.id === idB;
-  });
-
-  if (targetA === undefined || targetB === undefined) {
-    return -1;
-  }
-
-  const targetAToRootDistanceList = [
-    ...Array.from({ length: customNodeList.length }),
-  ].map(() => {
-    return -1;
-  });
-
-  const currentFromA = {
-    pos: targetA.id,
-    distance: 0,
-    parentPos: targetA.parentId,
-  };
-  while (true) {
-    targetAToRootDistanceList[currentFromA.pos] = currentFromA.distance;
-    if (currentFromA.parentPos === undefined) {
-      break;
-    }
-    currentFromA.pos = currentFromA.parentPos;
-    currentFromA.parentPos = customNodeList.find((node) => {
-      return node.id === currentFromA.pos;
-    })?.id;
-    currentFromA.distance += 1;
-  }
-
-  const currentFromB = {
-    pos: targetB.id,
-    distance: 0,
-    parentPos: targetB.parentId,
-  };
-  while (true) {
-    if (
-      currentFromB.parentPos === undefined ||
-      targetAToRootDistanceList[currentFromB.pos] !== -1
-    ) {
-      break;
-    }
-    currentFromB.pos = currentFromB.parentPos;
-    currentFromB.parentPos = customNodeList.find((node) => {
-      return node.id === currentFromB.pos;
-    })?.id;
-    currentFromB.distance += 1;
-  }
-
-  return targetAToRootDistanceList[currentFromB.pos] + currentFromB.distance;
 };
 
 export const getCustomNodeFromPostion = (
