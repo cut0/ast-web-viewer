@@ -1,7 +1,16 @@
-import { FC, useCallback, useContext, useRef, useState } from "react";
+import {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Tree from "react-d3-tree";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ConfirmModalContainer } from "../../components/common/ConfirmModalContainer";
 import { AuthContext } from "../../features/auth/AuthProvider";
 import { logOutOfGoogle } from "../../features/auth/AuthUtils";
@@ -43,27 +52,40 @@ export const WritingAnalyticsPageContent: FC = () => {
     errorMessage: "アップロード失敗",
   });
 
-  const switchPlaying = useCallback(() => {
-    setIsPlay((prev) => {
-      return !prev;
-    });
-  }, []);
-
-  const [payloadPos, setPayloadPost] = useState(0);
+  const [payloadStep, setPayloadStep] = useState(0);
   useInterval(() => {
     if (
-      payloadPos === writingState.payload.length - 1 ||
+      payloadStep === writingState.payload.length - 1 ||
       writingState.payload.length === 0
     ) {
-      setPayloadPost(0);
       setIsPlay(false);
       return;
     }
     if (!isPlay) {
       return;
     }
-    setPayloadPost((pre) => pre + 1);
+    setPayloadStep((pre) => pre + 1);
   });
+
+  const switchPlaying = useCallback(() => {
+    setIsPlay((prev) => {
+      if (prev === false && payloadStep === writingState.payload.length - 1) {
+        setPayloadStep(0);
+      }
+      return !prev;
+    });
+  }, [payloadStep, writingState.payload.length]);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (writingState.payload.length === 0) {
+      router.push("/writing");
+    }
+  }, [writingState.payload, router]);
+
+  const currentCustomNodeList = useMemo(() => {
+    return writingState.payload[payloadStep].customNodeList;
+  }, [writingState.payload, payloadStep]);
 
   return (
     <>
@@ -75,7 +97,9 @@ export const WritingAnalyticsPageContent: FC = () => {
               type="button"
               onClick={switchPlaying}
             >
-              {isPlay ? "再生中" : "停止中"}
+              {isPlay
+                ? `再生中 ${payloadStep + 1}/${writingState.payload.length}`
+                : `停止中 ${payloadStep + 1}/${writingState.payload.length}`}
             </button>
           </div>
           {authState.status === "login" && (
@@ -117,9 +141,7 @@ export const WritingAnalyticsPageContent: FC = () => {
         <div className={TreeViewerContainer}>
           {writingState.payload.length > 0 && (
             <Tree
-              data={convertRawNodeDatum(
-                writingState.payload[payloadPos].customNodeList,
-              )}
+              data={convertRawNodeDatum(currentCustomNodeList)}
               depthFactor={300}
               renderCustomNodeElement={(props) => {
                 return <WritingTreeNodeElement {...props} />;
