@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useMemo } from "react";
+import { FC, useCallback, useContext, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
 import { CustomEditor } from "../../components/writing/CustomEditor";
@@ -13,10 +13,20 @@ import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
 import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
-import { MainContainer, Header, LinkLabel } from "./index.css";
+import { useExecute } from "../../features/code/ExecuteHooks";
+import {
+  MainContainer,
+  Header,
+  LinkLabel,
+  RightContainer,
+  ConsoleContainer,
+  ExecuteButton,
+} from "./index.css";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
+
+  const [executeState, executeHandler] = useExecute();
 
   const currentPayload = useMemo(() => {
     return writingState.payload.length > 0
@@ -51,28 +61,51 @@ export const WritingPageContent: FC = () => {
             });
           }}
         />
-        {currentPayload && (
-          <Tree
-            data={convertRawNodeDatum(currentPayload.customNodeList)}
-            depthFactor={300}
-            renderCustomNodeElement={(props) => {
-              return <WritingTreeNodeElement {...props} />;
-            }}
-            separation={{ siblings: 2, nonSiblings: 3 }}
-            collapsible
-          />
-        )}
-      </main>
-      {currentPayload && (
-        <AstInfoPanel
-          averageDepth={fetchAverageDepth(currentPayload.customNodeList)}
-          averageStrahlerNumber={fetchAverageStrahlerNumber(
-            currentPayload.customNodeList,
+
+        <div className={RightContainer}>
+          {currentPayload && (
+            <>
+              <div className={ConsoleContainer}>
+                <button
+                  className={ExecuteButton}
+                  onClick={() => {
+                    executeHandler(currentPayload.rawProgram);
+                  }}
+                >
+                  実行
+                </button>
+                <p>※静的解析でエラーが発生しなかった最新のものを実行します</p>
+                {executeState.status === "loading" && <p>Loading...</p>}
+                {executeState.status === "success" &&
+                  executeState.payload.split("\n").map((output, index) => {
+                    return <p key={index}>{output}</p>;
+                  })}
+
+                {executeState.status === "error" && (
+                  <p>`ERROR!! ${executeState.payload.message}`</p>
+                )}
+              </div>
+              <Tree
+                data={convertRawNodeDatum(currentPayload.customNodeList)}
+                depthFactor={300}
+                renderCustomNodeElement={(props) => {
+                  return <WritingTreeNodeElement {...props} />;
+                }}
+                separation={{ siblings: 2, nonSiblings: 3 }}
+                collapsible
+              />
+              <AstInfoPanel
+                averageDepth={fetchAverageDepth(currentPayload.customNodeList)}
+                averageStrahlerNumber={fetchAverageStrahlerNumber(
+                  currentPayload.customNodeList,
+                )}
+                nodeCount={fetchNodeCount(currentPayload.customNodeList)}
+                stepCount={writingState.payload.length}
+              />
+            </>
           )}
-          nodeCount={fetchNodeCount(currentPayload.customNodeList)}
-          stepCount={writingState.payload.length}
-        />
-      )}
+        </div>
+      </main>
     </>
   );
 };

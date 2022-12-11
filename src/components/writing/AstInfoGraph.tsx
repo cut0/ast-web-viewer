@@ -52,11 +52,7 @@ export const AstInfoGraph: FC<AstInfoGraphProps> = ({
           type="monotone"
         />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis
-          onClick={() => {
-            console.log("hello");
-          }}
-        />
+        <XAxis />
         <YAxis />
         <Tooltip />
       </LineChart>
