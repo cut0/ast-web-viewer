@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useEffect, useMemo } from "react";
+import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
 import Tree from "react-d3-tree";
 import { CustomEditor } from "../../components/writing/CustomEditor";
@@ -13,20 +13,12 @@ import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
 import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
-import { useExecute } from "../../features/code/ExecuteHooks";
-import {
-  MainContainer,
-  Header,
-  LinkLabel,
-  RightContainer,
-  ConsoleContainer,
-  ExecuteButton,
-} from "./index.css";
+import { MainContainer, Header, LinkLabel, RightContainer } from "./index.css";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
-  const [executeState, executeHandler] = useExecute();
+  // const [executeState, executeHandler] = useExecute();
 
   const currentPayload = useMemo(() => {
     return writingState.payload.length > 0
@@ -65,7 +57,7 @@ export const WritingPageContent: FC = () => {
         <div className={RightContainer}>
           {currentPayload && (
             <>
-              <div className={ConsoleContainer}>
+              {/* <div className={ConsoleContainer}>
                 <button
                   className={ExecuteButton}
                   onClick={() => {
@@ -84,7 +76,7 @@ export const WritingPageContent: FC = () => {
                 {executeState.status === "error" && (
                   <p>`ERROR!! ${executeState.payload.message}`</p>
                 )}
-              </div>
+              </div> */}
               <Tree
                 data={convertRawNodeDatum(currentPayload.customNodeList)}
                 depthFactor={300}
