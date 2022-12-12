@@ -1,11 +1,16 @@
 import { ReactNode, createContext, FC, Reducer, useReducer } from "react";
 import { CustomNode } from "../code/AstUtils";
 
-type Action = { type: "UPDATE_AST"; customNodeList: CustomNode[] };
+type Action = {
+  type: "UPDATE_AST";
+  rawProgram: string;
+  customNodeList: CustomNode[];
+};
 
 type State = {
   payload: {
     customNodeList: CustomNode[];
+    rawProgram: string;
     date: Date;
   }[];
 };
@@ -22,7 +27,11 @@ export const writingReducer: Reducer<State, Action> = (
         ...state,
         payload: [
           ...state.payload,
-          { customNodeList: action.customNodeList, date: new Date() },
+          {
+            customNodeList: action.customNodeList,
+            date: new Date(),
+            rawProgram: action.rawProgram,
+          },
         ],
       };
   }

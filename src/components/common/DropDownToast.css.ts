@@ -5,7 +5,7 @@ export const DropDownAnimation = keyframes({});
 
 export const ErrorToast = style({
   backgroundColor: basic.error,
-  boxShadow: "0px 4px 6px　#d0080e",
+  boxShadow: "0px 4px 6px #d0080e",
   color: text.highLight,
   borderRadius: "8px",
   position: "fixed",
@@ -20,6 +20,7 @@ export const ErrorToast = style({
   gap: "16px",
   animationDirection: "alternate",
   animation: `${DropDownAnimation} ease 0.3s 1 normal`,
+  zIndex: "100",
 });
 
 export const SuccessToast = style({
@@ -39,6 +40,7 @@ export const SuccessToast = style({
   gap: "16px",
   animationDirection: "alternate",
   animation: `${DropDownAnimation} ease 0.3s 1 normal`,
+  zIndex: "100",
 });
 
 export const Label = style({

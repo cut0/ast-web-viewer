@@ -28,7 +28,8 @@
     "react": "^18.2.0",
     "react-d3-tree": "^3.3.4",
     "react-dom": "^18.2.0",
-    "react-modal": "^3.15.1"
+    "react-modal": "^3.15.1",
+    "recharts": "^2.2.0"
   },
   "devDependencies": {
     "@types/babel-traverse": "^6.25.7",

@@ -1,32 +1,34 @@
 import { style } from "@vanilla-extract/css";
-import { background, basic, color, text } from "../../../features/styles/theme";
-
-export const PageContainer = style({
-  width: "100%",
-  padding: "32px",
-  display: "grid",
-  height: "100vh",
-  gridTemplateRows: "auto 1fr",
-  gap: "16px",
-});
+import { background, basic, color, text } from "../../features/styles/theme";
 
 export const Header = style({
-  gridColumn: "1 / -1",
+  width: "100%",
+  padding: "16px",
   display: "flex",
   justifyContent: "space-between",
+  position: "fixed",
+  backgroundColor: "white",
+  zIndex: "1",
 });
 
-export const UploadContainer = style({
+export const HeaderLeftContainer = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+});
+
+export const HeaderRightContainer = style({
   display: "grid",
   gridTemplateColumns: "repeat(2,1fr)",
   alignItems: "center",
-  gap: "16px",
+  justifyItems: "flex-end",
+  gap: "8px",
 });
 
 export const ProfileImageContainer = style({
   backgroundColor: background.loading,
   position: "relative",
-  height: "100%",
+  height: "40px",
   borderRadius: "50%",
   aspectRatio: "1 / 1",
   border: "none",
@@ -70,10 +72,15 @@ export const LinkLabel = style({
   cursor: "pointer",
 });
 
-export const TreeViewerContainer = style({
-  border: color.black,
-  borderRadius: "16px",
-  boxShadow: "0 1px 10px -4px #c6c8ca",
+export const MainContainer = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  padding: "72px 16px 0px",
+});
+
+export const InfoContainer = style({
+  display: "grid",
+  gridTemplateRows: "repeat(2, 1fr)",
 });
 
 export const UserInputContainer = style({

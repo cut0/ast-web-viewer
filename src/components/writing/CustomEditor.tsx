@@ -3,11 +3,13 @@ import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 type CustomEditorProps = {
+  code?: string;
   onCodeChange: (code: string) => void;
   defaultValue?: string;
 };
 
 export const CustomEditor: FC<CustomEditorProps> = ({
+  code,
   onCodeChange,
   defaultValue,
 }) => {
@@ -37,6 +39,7 @@ export const CustomEditor: FC<CustomEditorProps> = ({
       defaultLanguage="javascript"
       defaultValue={defaultValue}
       height="100vh"
+      value={code}
       onChange={onChange}
       onMount={handleEditorDidMount}
     />
