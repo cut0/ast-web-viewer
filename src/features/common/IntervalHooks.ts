@@ -10,7 +10,7 @@ export const useInterval = (callback: () => void) => {
     const tick = () => {
       callbackRef.current();
     };
-    const id = setInterval(tick, 500);
+    const id = setInterval(tick, 200);
     return () => {
       clearInterval(id);
     };

@@ -13,12 +13,20 @@ import { WritingContext } from "../../features/writing/Provider";
 import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
 import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
 import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
-import { MainContainer, Header, LinkLabel, RightContainer } from "./index.css";
+import { useExecute } from "../../features/code/ExecuteHooks";
+import {
+  MainContainer,
+  Header,
+  LinkLabel,
+  RightContainer,
+  ConsoleContainer,
+  ExecuteButton,
+} from "./index.css";
 
 export const WritingPageContent: FC = () => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
-  // const [executeState, executeHandler] = useExecute();
+  const [executeState, executeHandler] = useExecute();
 
   const currentPayload = useMemo(() => {
     return writingState.payload.length > 0
@@ -57,11 +65,14 @@ export const WritingPageContent: FC = () => {
         <div className={RightContainer}>
           {currentPayload && (
             <>
-              {/* <div className={ConsoleContainer}>
+              <div className={ConsoleContainer}>
                 <button
                   className={ExecuteButton}
                   onClick={() => {
-                    executeHandler(currentPayload.rawProgram);
+                    executeHandler(
+                      currentPayload.rawProgram,
+                      writingState.payload.length,
+                    );
                   }}
                 >
                   実行
@@ -76,7 +87,7 @@ export const WritingPageContent: FC = () => {
                 {executeState.status === "error" && (
                   <p>`ERROR!! ${executeState.payload.message}`</p>
                 )}
-              </div> */}
+              </div>
               <Tree
                 data={convertRawNodeDatum(currentPayload.customNodeList)}
                 depthFactor={300}

@@ -4,14 +4,17 @@ import { WritingContextContainer } from "../features/writing/Provider";
 import "modern-css-reset";
 import "../features/styles/global.css";
 import { AuthContextContainer } from "../features/auth/AuthProvider";
+import { ExecuteContextContainer } from "../features/execute/Provider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthContextContainer>
-      <WritingContextContainer>
-        <Component {...pageProps} />
-      </WritingContextContainer>
-    </AuthContextContainer>
+    <ExecuteContextContainer>
+      <AuthContextContainer>
+        <WritingContextContainer>
+          <Component {...pageProps} />
+        </WritingContextContainer>
+      </AuthContextContainer>
+    </ExecuteContextContainer>
   );
 }
 

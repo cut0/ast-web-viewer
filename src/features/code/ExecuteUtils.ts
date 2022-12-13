@@ -1,13 +1,19 @@
-const url = "http://api.paiza.io/runners";
-
 export const execute = async (code: string) => {
-  const query = new URLSearchParams({
-    source_code: code,
-    language: "javascript",
-    api_key: "guest",
-  });
-  const res = await fetch(`${url}/create?${query}`, {
+  const res = await fetch("http://api.paiza.io:80/runners/create", {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({
+      source_code: code,
+      language: "javascript",
+      api_key: "guest",
+    }),
   })
     .then((response) => {
       return response.json();
@@ -26,7 +32,7 @@ export const fetchResult = async (id: string) => {
     id,
     api_key: "guest",
   });
-  const res = await fetch(`${url}/get_details?${query}`, {
+  const res = await fetch(`http://api.paiza.io/runners/get_details?${query}`, {
     method: "GET",
   })
     .then((response) => {

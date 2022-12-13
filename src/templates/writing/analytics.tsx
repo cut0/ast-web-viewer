@@ -28,6 +28,7 @@ import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNode
 import { AstInfoGraph } from "../../components/writing/AstInfoGraph";
 import { CustomViewer } from "../../components/writing/CustomViewer";
 import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
+import { ExecuteContext } from "../../features/execute/Provider";
 import {
   MainContainer,
   Header,
@@ -46,6 +47,7 @@ import {
 
 export const WritingAnalyticsPageContent: FC = () => {
   const [writingState] = useContext(WritingContext);
+  const [executeState] = useContext(ExecuteContext);
 
   const [authState] = useContext(AuthContext);
   const [showSubmitConfirmModal, setShowSubmitConfirmModal] = useState(false);
@@ -72,13 +74,18 @@ export const WritingAnalyticsPageContent: FC = () => {
   }, [totalStep, writingState.payload, payloadStep]);
 
   const timeSeriesParams = useMemo(() => {
-    return writingState.payload.map((el) => {
+    return writingState.payload.map((el, index) => {
       const nodeCount = fetchNodeCount(el.customNodeList);
       const averageStrahlerNumber = fetchAverageStrahlerNumber(
         el.customNodeList,
       );
       const averageDepth = fetchAverageDepth(el.customNodeList);
-      return { nodeCount, averageStrahlerNumber, averageDepth };
+      return {
+        step: `${index}`,
+        nodeCount,
+        averageStrahlerNumber,
+        averageDepth,
+      };
     });
   }, [writingState.payload]);
 
@@ -169,6 +176,7 @@ export const WritingAnalyticsPageContent: FC = () => {
             <CustomViewer code={currentPayload.rawProgram} />
             <div className={InfoContainer}>
               <AstInfoGraph
+                executeList={executeState.payload}
                 timeSeriesParams={timeSeriesParams}
                 onClickGraph={(step) => {
                   if (isPlay) {
@@ -198,7 +206,7 @@ export const WritingAnalyticsPageContent: FC = () => {
             return;
           }
           uploadHandler(
-            JSON.stringify(writingState),
+            JSON.stringify({ writingState, executeState }),
             "writing",
             userIdRef.current.value,
           );
