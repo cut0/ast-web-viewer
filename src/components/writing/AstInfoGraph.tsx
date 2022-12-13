@@ -26,7 +26,6 @@ export const AstInfoGraph: FC<AstInfoGraphProps> = ({
   executeList,
   onClickGraph,
 }) => {
-  console.log(executeList);
   return (
     <ResponsiveContainer>
       <LineChart
