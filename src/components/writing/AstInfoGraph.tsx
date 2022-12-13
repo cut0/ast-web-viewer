@@ -7,7 +7,9 @@ import {
   YAxis,
   ResponsiveContainer,
   Tooltip,
+  ReferenceLine,
 } from "recharts";
+import { basic } from "../../features/styles/theme";
 
 type AstInfoGraphProps = {
   timeSeriesParams: {
@@ -15,11 +17,13 @@ type AstInfoGraphProps = {
     averageStrahlerNumber: number;
     averageDepth: number;
   }[];
+  executeList: { step: number; status: "error" | "success" }[];
   onClickGraph: (step: number) => void;
 };
 
 export const AstInfoGraph: FC<AstInfoGraphProps> = ({
   timeSeriesParams,
+  executeList,
   onClickGraph,
 }) => {
   return (
@@ -52,9 +56,16 @@ export const AstInfoGraph: FC<AstInfoGraphProps> = ({
           type="monotone"
         />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis />
+        <XAxis dataKey="step" />
         <YAxis />
         <Tooltip />
+        {executeList.map((execute) =>
+          execute.status === "success" ? (
+            <ReferenceLine stroke={basic.success} x={execute.step - 1} />
+          ) : execute.status === "error" ? (
+            <ReferenceLine stroke={basic.error} x={execute.step - 1} />
+          ) : undefined,
+        )}
       </LineChart>
     </ResponsiveContainer>
   );
