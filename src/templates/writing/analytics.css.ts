@@ -18,8 +18,7 @@ export const HeaderLeftContainer = style({
 });
 
 export const HeaderRightContainer = style({
-  display: "grid",
-  gridTemplateColumns: "repeat(2,1fr)",
+  display: "flex",
   alignItems: "center",
   justifyItems: "flex-end",
   gap: "8px",

@@ -116,6 +116,17 @@ export const WritingAnalyticsPageContent: FC = () => {
     }
   }, [totalStep, router]);
 
+  const exportData = useCallback((data: unknown) => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data),
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+
+    link.click();
+  }, []);
+
   return (
     <>
       <header className={Header}>
@@ -161,6 +172,15 @@ export const WritingAnalyticsPageContent: FC = () => {
               }}
             >
               登録
+            </button>
+            <button
+              className={SubmitCodeButton}
+              type="button"
+              onClick={() => {
+                exportData({ writingState, executeState });
+              }}
+            >
+              ダウンロード　
             </button>
           </div>
         )}
