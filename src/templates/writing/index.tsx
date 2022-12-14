@@ -23,7 +23,11 @@ import {
   ExecuteButton,
 } from "./index.css";
 
-export const WritingPageContent: FC = () => {
+type WritingPageContentProps = {
+  self?: boolean;
+};
+
+export const WritingPageContent: FC<WritingPageContentProps> = ({ self }) => {
   const [writingState, dispatchWriting] = useContext(WritingContext);
 
   const [executeState, executeHandler] = useExecute();
@@ -49,6 +53,14 @@ export const WritingPageContent: FC = () => {
       <main className={MainContainer}>
         <CustomEditor
           code={currentPayload ? currentPayload.rawProgram : undefined}
+          defaultValue={
+            self
+              ? `const heightA = 70, widthA = 140;
+const heightB = 40, widthB = 65;
+const heightC = 100, widthC = 100;
+`
+              : undefined
+          }
           onCodeChange={(code) => {
             const customNodeList = convertCustomNodeList(code);
             if (customNodeList === undefined) {
