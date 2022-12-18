@@ -53,16 +53,14 @@ export const HomePageContent: FC = () => {
           )}
         </header>
         <div className={CardListContainer}>
-          <Link href="/writing/self" passHref>
+          <Link href="/writing" passHref>
             <a className={CardContainer}>
               <h2 className={CardTitle}>Writing</h2>
-              <section className={CardSummary}>
-                コードを写経するページです
-              </section>
-              <span className={CardNav}>写景ページへ</span>
+              <section className={CardSummary}>コードを写すページです</section>
+              <span className={CardNav}>写すページへ</span>
             </a>
           </Link>
-          <Link href="/writing" passHref>
+          <Link href="/writing/self" passHref>
             <a className={CardContainer}>
               <h2 className={CardTitle}>Writing</h2>
               <section className={CardSummary}>コードを書くページです</section>

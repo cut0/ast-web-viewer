@@ -1,17 +1,8 @@
 import { FC, useContext, useMemo } from "react";
 import Link from "next/link";
-import Tree from "react-d3-tree";
 import { CustomEditor } from "../../components/writing/CustomEditor";
-import {
-  convertCustomNodeList,
-  convertRawNodeDatum,
-  fetchAverageDepth,
-  fetchAverageStrahlerNumber,
-  fetchNodeCount,
-} from "../../features/code/AstUtils";
+import { convertCustomNodeList } from "../../features/code/AstUtils";
 import { WritingContext } from "../../features/writing/Provider";
-import { WritingTreeNodeElement } from "../../components/writing/WritingTreeNodeElement";
-import { AstInfoPanel } from "../../components/writing/AstInfoPanel";
 import { BackSvgIcon } from "../../components/icons/BackSvgIcon";
 import { useExecute } from "../../features/code/ExecuteHooks";
 import {
@@ -100,7 +91,7 @@ const heightC = 100, widthC = 100;
                   <p>`ERROR!! ${executeState.payload.message}`</p>
                 )}
               </div>
-              <Tree
+              {/* <Tree
                 data={convertRawNodeDatum(currentPayload.customNodeList)}
                 depthFactor={300}
                 renderCustomNodeElement={(props) => {
@@ -116,7 +107,7 @@ const heightC = 100, widthC = 100;
                 )}
                 nodeCount={fetchNodeCount(currentPayload.customNodeList)}
                 stepCount={writingState.payload.length}
-              />
+              /> */}
             </>
           )}
         </div>
